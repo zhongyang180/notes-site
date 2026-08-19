@@ -1,0 +1,1361 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://zhongyang180.github.io/notes-site/Dictionary/git%20%26%20github/">
+      
+      
+        <link rel="prev" href="../../verl%E6%8A%80%E6%9C%AF%E7%89%B9%E6%80%A7%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/">
+      
+      
+        <link rel="next" href="../AI_and_Math/alpaca%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E4%B8%8E%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Git & github - 笔记站点</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="笔记站点" class="md-header__button md-logo" aria-label="笔记站点" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            笔记站点
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Git & github
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/zhongyang180/core_docs" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zhongyang180/core_docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  欢迎
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../RL%E7%AE%97%E6%B3%95%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RL 算法研究进展调研报告（2025–2026）
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../verl%E6%8A%80%E6%9C%AF%E7%89%B9%E6%80%A7%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  verl 关键技术特性调研报告（实操侧）
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Dictionary
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="笔记站点" class="md-nav__button md-logo" aria-label="笔记站点" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    笔记站点
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/zhongyang180/core_docs" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zhongyang180/core_docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    欢迎
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../RL%E7%AE%97%E6%B3%95%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RL 算法研究进展调研报告（2025–2026）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../verl%E6%8A%80%E6%9C%AF%E7%89%B9%E6%80%A7%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    verl 关键技术特性调研报告（实操侧）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dictionary
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dictionary
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git & github
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI and Math
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI and Math
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AI_and_Math/alpaca%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E4%B8%8E%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpaca数据格式与其他数据格式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AI_and_Math/numpy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Numpy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AI_and_Math/%E7%90%86%E8%A7%A3softmax/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    理解softmax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attention mechanism
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Attention mechanism
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AI_and_Math/attention_mechanism/%E5%A2%9E%E5%8A%A0head%E6%95%B0%E7%9A%84%E5%8F%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    增加head数的变化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    single head Scaled Dot Product Attention
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    single head Scaled Dot Product Attention
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AI_and_Math/single-head-Scaled-Dot-Product_Attention/single-head-Scaled-Dot-Product_Attention/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    single head Scaled Dot Product Attention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Git & github</h1>
+
+<p>用来dev开发脚手架代码的最常见操作
+    git restore --source xxx --worktree .
+    关键点解释
+        git restore
+            用来“还原文件内容”或“替换当前工作区/暂存区的内容”。
+            类似于“把某个提交/分支里的文件拿出来用”，但比老的 git checkout 语义更清晰。
+        --source A
+            指定从哪个提交或分支取文件内容。这里 A 就是你要拷贝的分支。
+            可以是分支名（A）、commit 哈希（abc123）、tag 名等。
+        --staged
+            表示同时更新 暂存区 (index)。
+            这样你后面直接 git commit 就可以了，不需要额外 git add。
+        --worktree
+            表示同时更新 工作区 (working directory)。
+            如果不加 --worktree，只有暂存区更新，但文件不会写到磁盘。
+        .
+            表示作用范围是“当前目录下的所有文件”。
+            也可以替换成具体文件/路径，比如：
+            git restore --source A --staged --worktree path/to/file</p>
+<p>github git 443的操作
+    在 ~/.ssh/config 里加一个 专门针对 ssh.github.com 的配置：
+        Host ssh.github.com
+            HostName ssh.github.com
+            Port 443
+            User git
+            IdentityFile ~/.ssh/githubssh
+            IdentitiesOnly yes
+        保持原来的 github.com 配置不动也可以，两条并存。
+    remote url也得改 ssh://git@ssh.github.com:443/zhongyang180/core_docs.git
+        原来的是 git@github.com:zhongyang180/core_docs.git
+        git remote set-url origin ssh://git@ssh.github.com:443/zhongyang180/core_docs.git</p>
+<p>文件权限可能影响ssh免密登陆
+    chmod 700 ~/.ssh
+    chmod 600 ~/.ssh/authorized_keys
+    为什么权限太宽反而无法使用公钥登录？
+    这其实是 OpenSSH 出于安全性考虑的一个重要设计：
+    如果这些权限太“宽松”（比如 777 或 644），SSH 守护进程会认为这个密钥文件可能被他人读取或篡改，于是：
+    出于安全性考虑，完全忽略该密钥，回退为密码认证。
+    也就是说：SSH 不是失败了，而是故意不信任你的密钥。</p>
+<p>将 Git 仓库的某个分支打包成压缩包（如 zip）
+    方法一：用 git archive（推荐）
+    适合你本地已经克隆了仓库的情况。
+    git archive --format=zip --output=branch_name.zip branch_name
+    示例：
+    git archive --format=zip --output=dev.zip dev
+    这将会把 dev 分支打包成 dev.zip 文件。</p>
+<p>你运行的命令： git checkout origin/minimum-sufficient-system
+    本质上是检出一个远程分支的某个提交，而不是创建一个本地分支。这就是你进入了“detached HEAD”状态的原因。
+    🔍 解释一下“detached HEAD”：
+    在 Git 中，HEAD 通常指向一个分支的最新提交。但如果你检出的是某个“具体的提交”或“远程分支”，而不是本地分支名，HEAD 就变成了“悬空状态（detached）”。
+    此时：
+    你仍然可以查看、编辑、提交代码；
+    但你不会在任何本地分支上“前进”，因为当前 HEAD 没有指向任何本地分支；
+    如果你现在提交新代码，这些提交可能很容易“丢失”——除非你手动创建分支或打 tag。
+    ✅ 正确做法（创建本地分支并切换）：
+    如果你想在远程分支 origin/minimum-sufficient-system 的基础上开发或提交，可以这样操作：
+    git checkout -b minimum-sufficient-system origin/minimum-sufficient-system
+    或在 Git 2.23+ 用更推荐的命令：
+    git switch -c minimum-sufficient-system origin/minimum-sufficient-system
+    这样会：
+    在本地新建分支 minimum-sufficient-system；
+    追踪远程分支 origin/minimum-sufficient-system；
+    自动切换到这个新分支；
+    避免进入 detached HEAD 状态。
+    🧠 总结
+    你之所以进入 detached 状态，是因为你直接检出了远程分支的某个提交，而没有建立对应的本地分支。解决方法就是手动建立本地分支，并指定基于的远程分支。</p>
+<p>git merge --squash
+    git merge --squash 是 Git 中的一种合并策略，用于将一个分支的所有提交“压缩”成一个提交合并到当前分支，而不是保留原来所有的历史提交。这通常用于清理提交历史，尤其是在合并 feature 分支到主干（如 main）时。
+    使用方法（假设你当前在 main 分支）
+    git merge --squash feature-branch
+    这条命令的效果是：
+    把 feature-branch 上所有的变更内容合并到当前分支的工作区和暂存区。
+    不会自动创建合并提交。
+    提交历史不会被引入；你可以写一个新的提交信息。
+    然后你可以这样提交：
+    git commit -m "Add feature XYZ in one commit"
+    举个完整例子：
+    # 1. 切换到主分支
+    git checkout main
+    # 2. 执行 squash 合并
+    git merge --squash feature-xyz
+    # 3. 查看合并状态
+    git status
+    # 4. 提交一个新的单独提交
+    git commit -m "Add all changes from feature-xyz"</p>
+<p>Windows 不允许使用的字符
+    你遇到的错误：
+    error: invalid path 'ALARM: AlignLanguageModelsviaHierarchicalRewardsModeling'
+    error: invalid path 'MindStar:EnhancingMathReasoninginPre-trainedLLMsatInferenceTime'
+    error: invalid path 'TheLargertheBetter?ImprovedLLMCode-GenerationviaBudgetReallocation'
+    表示 Git 无法在你的 Windows 系统中创建某些文件或文件夹，原因是这些文件路径名称包含 Windows 不允许使用的字符，比如：
+    :（冒号）在 Windows 中用于磁盘分区（如 C:），不能用于文件名。
+    ?（问号）是非法字符，也不能用于文件名。
+    这些文件可能是在一个 非 Windows 系统（如 macOS 或 Linux） 上创建并提交的，而现在你在 Windows 上 pull，Git 尝试写入这些非法路径，因此失败。</p>
+<p>https://chatgpt.com/c/6821a482-a65c-8004-bacc-c7c1cccdbf23</p>
+<p>pr的 on hold是什么标签
+    ChatGPT 说：
+    在 GitHub 或类似的代码托管平台上，on hold 标签通常用于表示某个 Pull Request（PR）或任务暂时被搁置或暂停处理。这可能意味着该 PR 正在等待某些条件满足，或者需要在进一步的讨论、代码审查、或其他工作完成后才能继续。
+    常见的使用场景包括：
+    等待某个问题的解决：例如等待 bug 修复、代码修改或功能补充。
+    等待团队成员的确认：可能是团队成员需要提供进一步的反馈或进行测试。
+    等待依赖项：某些任务可能需要等待其他 PR、更新或外部服务的支持。
+    简而言之，on hold 表示该 PR 已暂停处理，并未被关闭。它是一个标记，通常用于表示该 PR 不会立即被合并，直到条件满足为止。
+更新带子模块的git仓库 https://chatgpt.com/c/67eb48c7-9498-8004-a883-8eb146bb76d6</p>
+<p>git ssh配置
+    https://chatgpt.com/c/67e2816a-a540-8004-9e71-cd79bc376076</p>
+<p>这个聊天后半截对stash的说明 https://chatgpt.com/c/67e20c00-07bc-8004-999e-f81d6338100d</p>
+<p>git stash中，能不能类似commit一样，对每个贮藏都命名</p>
+<div class="language-text highlight"><pre><span></span><code>ChatGPT 说：
+可以的！虽然 git stash 默认不会像 git commit 那样强制要求输入 message，但它确实支持为每个 stash 添加描述信息，方便你识别。
+
+✅ 给 stash 命名的正确方法：
+
+复制
+编辑
+git stash push -m "修复 battery law query 的 ES 400 报错"
+或者（老语法，也支持）：
+
+
+复制
+编辑
+git stash save "修复 battery law query 的 ES 400 报错"
+-m 是新版 git stash push 的命名方式（推荐）；
+
+save 是旧版语法，Git 2.13 之后推荐用 push -m；
+
+描述会出现在 git stash list 中。
+
+👀 查看所有 stash 列表（含描述）：
+
+复制
+编辑
+git stash list
+输出示例：
+
+perl
+复制
+编辑
+stash@{0}: On dev: 修复 battery law query 的 ES 400 报错
+stash@{1}: On main: 修复 socket bind 冲突
+stash@{2}: WIP on dev: 实验性日志优化
+✅ 使用描述找回 stash：
+你仍然通过 stash@{0} 等编号来操作，但有了描述就更容易知道里面是什么了。
+
+恢复例子：
+git stash apply stash@{1}
+🔁 如果已经 stash 了但没写描述，可以怎么改？
+你不能直接重命名已有的 stash，但可以做个 workaround：
+# 恢复已有 stash
+git stash show -p stash@{0} | git apply
+
+# 然后重新 stash 一次，并加上描述
+git stash push -m "新的描述信息"
+</code></pre></div>
+<p>是不是因为git默认当前分支和远程分支同名？我之前把当前分支名字拼错了，推送的origin的名字是对的，也就是不一致
+    ChatGPT 说：
+    对，你说得很对，Git 默认假设你要推送的远程分支名字和本地分支一致。所以如果你当前本地分支名字拼错了（比如 style/refact_agent2 拼成了别的），Git 自然就找不到 style/refact_agent2 这个本地分支来推送。</p>
+<div class="language-text highlight"><pre><span></span><code>✅ 举个例子：
+你现在的本地分支其实叫：
+
+
+复制
+编辑
+style/rafact_agent2  # 拼错了
+然后你执行了：
+
+
+复制
+编辑
+git push origin style/refact_agent2
+Git 就会去找本地的 style/refact_agent2，但根本没有这个分支，于是就报错了：
+
+
+复制
+编辑
+错误：源引用规格 style/refact_agent2 没有匹配
+✅ 解决方法 1：重命名当前分支
+如果你已经在拼错的分支上，可以直接重命名它：
+
+
+复制
+编辑
+git branch -m style/refact_agent2
+然后再推送：
+
+
+复制
+编辑
+git push origin style/refact_agent2
+✅ 解决方法 2：指定本地分支 -&gt; 远程分支的映射
+如果你想保留当前拼错的本地分支名，也可以这样推：
+
+
+复制
+编辑
+git push origin HEAD:refs/heads/style/refact_agent2
+这表示把你当前分支（HEAD）推到远程的 style/refact_agent2 分支上。
+
+✅ 后续建议
+推送后，如果你想要把远程的 style/refact_agent2 和你当前分支关联起来，方便以后的 git push 不用再写全名：
+
+
+复制
+编辑
+git push --set-upstream origin style/refact_agent2
+如果你告诉我你当前的分支名（用 git branch 看一下），我可以更具体地帮你写推送命令。
+</code></pre></div>
+<p>git怎么把文件替换成某个commit的文件（不一定是同一个分支）
+    ChatGPT 说：
+    你可以用 git checkout 或者 git restore 来把某个文件恢复成任意 commit（不管是不是当前分支的），不会自动提交，只是把文件还原成那个版本的内容，给你编辑和对比的机会。</p>
+<div class="language-text highlight"><pre><span></span><code>✅ 方法一：用 git checkout（经典通用）
+
+复制
+编辑
+git checkout &lt;commit-hash&gt; -- path/to/file
+例子：
+
+复制
+编辑
+git checkout abc1234 -- src/agent/main.py
+这会把 src/agent/main.py 替换成 abc1234 这个 commit 中的版本，但不会影响别的文件，也不会切换分支。
+
+✅ 方法二（推荐新版）：用 git restore
+
+复制
+编辑
+git restore --source &lt;commit-hash&gt; path/to/file
+例子：
+
+复制
+编辑
+git restore --source abc1234 src/agent/main.py
+作用一样，语义更清晰，是 Git 推荐的新方式（Git 2.23+）。
+
+🔄 替换后怎么办？
+你可以：
+
+用 git diff 查看改了啥
+
+确认没问题后 git commit 提交修改
+
+❗注意
+这种操作不会自动创建 commit，需要你手动 git add + git commit
+
+如果你还没提交当前工作区的内容，记得先 git stash 备份一下，以免被覆盖
+</code></pre></div>
+<p>pr流程总结
+    https://chatgpt.com/c/67e0be31-fee4-8004-9a0d-913c15152a21</p>
+<p>怎么取消之前的rebase
+    ChatGPT 说：
+    如果你想取消之前的 rebase，可以使用以下方法：</p>
+<div class="language-text highlight"><pre><span></span><code>1. 如果 rebase 还没有完成（例如，遇到了冲突并停下来）
+如果你在 rebase 过程中遇到冲突或者暂停了，你可以直接使用以下命令来取消当前的 rebase 操作：
+
+
+复制
+编辑
+git rebase --abort
+这会将你的代码库恢复到 rebase 开始前的状态，撤销所有的变更。
+
+2. 如果 rebase 已经完成并且已经提交
+如果你已经完成了 rebase，并且提交了变更，但想要撤回到 rebase 之前的状态，可以使用 git reflog 来找到之前的提交记录，并恢复到那个状态。
+
+步骤如下：
+
+查看 reflog： 运行以下命令来查看 git reflog，它记录了你最近的操作，包括提交、合并、rebase 等：
+
+
+复制
+编辑
+git reflog
+找到 rebase 之前的提交： 在 git reflog 输出中，找到 rebase 操作之前的提交记录，记下那个提交的哈希值（通常是 HEAD@{n} 形式）。
+
+恢复到指定的提交： 使用 git reset 命令恢复到那个提交：
+
+
+复制
+编辑
+git reset --hard &lt;commit_id&gt;
+其中 &lt;commit_id&gt; 是你在 reflog 中找到的那个提交的哈希值。
+
+注意：使用 --hard 会丢弃所有未提交的更改，确保你已经处理了任何未保存的工作。
+
+通过这两种方法，你可以取消之前的 rebase 操作。如果你还没提交变更，git rebase --abort 是最简单的解决方案；如果已经提交，使用 git reflog 和 git reset 可以恢复到之前的状态。
+</code></pre></div>
+<p>git rebase的时候，怎么交换两个commit
+    ChatGPT 说：
+    在使用 git rebase 时，可以通过交互式变基（git rebase -i）来交换两个提交的位置。这里是具体的步骤：</p>
+<div class="language-text highlight"><pre><span></span><code>启动交互式 rebase： 运行以下命令，启动交互式 rebase，并指定从哪个提交开始：
+
+
+复制
+编辑
+git rebase -i &lt;commit_id&gt;^
+其中，&lt;commit_id&gt; 是你想要变基的第一个提交的哈希值。注意，^ 是指从该提交之前的一个提交开始进行 rebase。
+
+编辑提交顺序： 在编辑器中，你会看到类似以下的内容：
+
+php-template
+复制
+编辑
+pick &lt;commit_id_1&gt; Commit message 1
+pick &lt;commit_id_2&gt; Commit message 2
+pick &lt;commit_id_3&gt; Commit message 3
+你需要交换你想要调换的两个提交的顺序。比如，想要交换 &lt;commit_id_1&gt; 和 &lt;commit_id_2&gt;，你可以修改为：
+
+php-template
+复制
+编辑
+pick &lt;commit_id_2&gt; Commit message 2
+pick &lt;commit_id_1&gt; Commit message 1
+保存并退出： 保存文件并退出编辑器，Git 会自动重新应用提交，并交换这两个提交的顺序。
+
+解决冲突（如果有的话）： 如果发生冲突，Git 会暂停 rebase 过程，提示你解决冲突。解决完冲突后，使用以下命令继续 rebase：
+
+
+复制
+编辑
+git rebase --continue
+通过这种方法，你就能交换任意两个提交的位置。
+</code></pre></div>
+<p>旧的语雀文档    https://www.yuque.com/jianganxiaoxiaosheng/uxqka0/krmao5gg6nse77yg</p>
+<p>git还原某个误修改的文件
+    先用git log 文件路径来看看这个文件的改动历史
+        可以用git log -p  kernel/connector/es/es_client.py 详细看改动内容
+    再用git restore还原这个文件到需要的那次commit的状态 git restore --source=3bc6118e kernel/connector/es/es_client.py </p>
+<p>设置git 代理
+    git config --global https.proxy https://127.0.0.1:7890
+        用这个命令设置git代理。先去clash看到clash的代理端口，然后git设置这个代理。
+        不设置，实际上git走的就是国内网。你看似能用梯子上git hub，实则git没有走梯子。
+    这个是一个全面的介绍    https://tjfish.github.io/posts/git设置代理解决被墙/#:~:text=那是因为git%20clone%20没有走你的代理，所以需要设置git走你的代理才行。,经常发现，自己虽然有梯子，可以正常访问github页面，但是在发现“git%20clone”命令速度特别慢，有时还经常卡掉。%20本文通过设置git%20代理，解决被墙问题%E3%80%82</p>
+<p>如何切换到远程分支？
+    得先git fetech
+    1. 拉取远程所有分支信息（尤其是别人的分支）
+        git fetch origin
+        这个命令能确保你本地知道所有远程的分支（包括别人新建的）。
+    如果你想在本地工作并切换到 feat/refactor_agent_zy 分支，你需要创建本地分支并关联远程分支。可以使用以下命令：
+    git checkout -b feat/refactor_agent_zy origin/feat/refactor_agent_zy
+    这个命令做了两件事：
+    1. 创建一个名为 feat/refactor_agent_zy 的本地分支。
+    2. 将本地分支与远程分支 origin/feat/refactor_agent_zy 关联起来，并切换到该分支。
+    lawagent-3.11(base) jaxxs@debian01:~/LawAgent$ git checkout -b  feat/integrate_htmlRAG  origin/feat/integrate_htmlRAG
+    分支 'feat/integrate_htmlRAG' 设置为跟踪 'origin/feat/integrate_htmlRAG'。
+    切换到一个新分支 'feat/integrate_htmlRAG'
+    这个命令用错了吗？我的目的是拉取远程分支到本地</p>
+<div class="language-text highlight"><pre><span></span><code>这个命令没有用错。你使用的命令 git checkout -b feat/integrate_htmlRAG origin/feat/integrate_htmlRAG 实际上是一个正确的命令来拉取远程分支并在本地创建对应的分支。
+这个命令做了以下操作：
+创建了一个新的本地分支 feat/integrate_htmlRAG
+将这个本地分支设置为跟踪远程分支 origin/feat/integrate_htmlRAG
+切换到这个新创建的分支
+如果你想拉取远程分支到本地，这个做法是完全正确的。另外一种等效的方式是：
+从输出信息来看：
+分支 'feat/integrate_htmlRAG' 设置为跟踪 'origin/feat/integrate_htmlRAG' - 表示成功设置了分支追踪
+切换到一个新分支 'feat/integrate_htmlRAG' - 表示成功切换到新分支
+所以你的操作是完全正确的。
+那为什么文件和远程分支不同
+
+如果你发现本地文件与远程分支不同，可能有以下几个原因：
+可能需要先执行 git fetch 更新远程分支信息：
+如果远程分支有新的更新，需要执行 git pull 来同步：
+检查一下当前分支状态：
+4. 如果本地有未提交的更改导致冲突，可以：
+建议你先执行 git status 查看当前状态，然后根据具体情况选择合适的操作。如果你能提供 git status 的输出，我可以给出更具体的建议。
+等于说 git checkout -b  feat/integrate_htmlRAG  origin/feat/integrate_htmlRAG的作用仅仅是新建一个本地分支，并且关联到远程分支？
+
+是的，完全正确！git checkout -b feat/integrate_htmlRAG origin/feat/integrate_htmlRAG 这个命令的作用是：
+-b feat/integrate_htmlRAG: 创建一个新的本地分支
+origin/feat/integrate_htmlRAG: 设置该本地分支跟踪的远程分支
+要完整地获取远程分支的内容，通常的完整流程是：
+或者更简单的方式：
+这样就能确保你的本地分支与远程分支的内容完全同步。
+# 直接拉取并切换到该分支
+git pull
+git switch feat/integrate_htmlRAG
+为什么这种方式能生效
+
+让我解释一下这个过程：
+git pull 实际上是两个命令的组合：
+git switch feat/integrate_htmlRAG 命令会：
+如果本地已经存在这个分支，直接切换到该分支
+如果本地不存在但远程存在这个分支，Git 会自动创建一个跟踪远程对应分支的本地分支
+所以这个命令能生效的原因是：
+git pull 已经将远程仓库的所有分支信息下载到本地
+当你执行 git switch feat/integrate_htmlRAG 时，Git 发现：
+本地没有这个分支
+但在远程分支信息中找到了 origin/feat/integrate_htmlRAG
+于是自动创建一个跟踪该远程分支的本地分支
+这其实是 Git 的一个便捷功能，相当于自动执行了：
+</code></pre></div>
+<p>git rebase -i 配合git push --force
+    pick reword squash</p>
+<p>git stash 配合 git stash pop
+    非常适合隐藏config的这种情况
+    也可以用来隐藏金手指</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/zhongyang180" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

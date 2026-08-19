@@ -1,0 +1,3813 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://zhongyang180.github.io/notes-site/verl%E6%8A%80%E6%9C%AF%E7%89%B9%E6%80%A7%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/">
+      
+      
+        <link rel="prev" href="../RL%E7%AE%97%E6%B3%95%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/">
+      
+      
+        <link rel="next" href="../Dictionary/git%20%26%20github/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>verl 关键技术特性调研报告（实操侧） - 笔记站点</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#verl" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="笔记站点" class="md-header__button md-logo" aria-label="笔记站点" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            笔记站点
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              verl 关键技术特性调研报告（实操侧）
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/zhongyang180/core_docs" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zhongyang180/core_docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  欢迎
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RL%E7%AE%97%E6%B3%95%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RL 算法研究进展调研报告（2025–2026）
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  verl 关键技术特性调研报告（实操侧）
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Dictionary/git%20%26%20github/" class="md-tabs__link">
+          
+  
+  
+  Dictionary
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="笔记站点" class="md-nav__button md-logo" aria-label="笔记站点" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    笔记站点
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/zhongyang180/core_docs" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zhongyang180/core_docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    欢迎
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RL%E7%AE%97%E6%B3%95%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RL 算法研究进展调研报告（2025–2026）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    verl 关键技术特性调研报告（实操侧）
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    verl 关键技术特性调研报告（实操侧）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 摘要与选型判断
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 能力矩阵总览
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 能力矩阵总览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 后端支持
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 内置算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 关键工程特性清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hybridflow-verl-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 架构：HybridFlow 与 verl-core
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 架构：HybridFlow 与 verl-core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-hybrid-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Hybrid-Controller 编程模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-verl-core-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 verl-core 的四个可插拔组件（0.7 新架构）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-transferqueuev08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 TransferQueue（实验性，v0.8 将成默认）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-v08-v09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 v0.8 / v0.9 路线图（对我们做技术选型很重要）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 算法配置速查：怎么把论文变成配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 算法配置速查：怎么把论文变成配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-grpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 GRPO 基线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-drgrpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Dr.GRPO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-dapo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 DAPO 四件套
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-clip-cov-kl-cov" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 熵干预（Clip-Cov / KL-Cov）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 长度与截断的健康指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-rollout-correctionverl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Rollout Correction：verl 最有价值的特性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Rollout Correction：verl 最有价值的特性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-verl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 verl 对问题的定性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 两个正交机制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 方法清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 两种运行模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 官方推荐的三步上线路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 健康阈值（照着这个建 dashboard）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#48" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 代码位置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 三条流水线：同步 / 半异步 / 全异步
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 三条流水线：同步 / 半异步 / 全异步">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 选型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 为什么需要异步：长尾问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-fully-async" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 fully-async 架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 实测加速比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 权重同步
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-agent-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Agent Loop 与多轮 / 工具调用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Agent Loop 与多轮 / 工具调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 定位与破坏性变更
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-agent-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 自定义 Agent Loop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 执行流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-token-intoken-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 ⚠️ 必须避开的坑：token-in/token-out
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 多轮配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-tokenization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 tokenization 一致性检查
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-mtpmulti-token-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. MTP（Multi-Token Prediction）支持 ⭐
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. MTP（Multi-Token Prediction）支持 ⭐">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 支持范围与硬约束
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 依赖版本（最大的实操障碍）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 四种使用场景与配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 官方实测结论（重要，且有点反直觉）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-sft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 SFT 场景
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#76-mtp-rl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 MTP 在 RL 中的核心难题（学术侧背景）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#77-mtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7 我对 MTP 的落地判断
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-fp8-nvfp4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 低精度：FP8 与 NVFP4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. 低精度：FP8 与 NVFP4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-fp8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 两种 FP8 模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 支持范围
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 实测结果（含最关键的一条警告）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 结论
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 大模型性能调优要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. 大模型性能调优要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 显存预算的算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 采样参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-vllm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 vLLM 侧
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-megatron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Megatron 侧推荐配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 checkpoint 格式的选择（容易搞错）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-batching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 动态 batching（建议全开）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#97" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 数据要求
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 其他值得知道的特性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 其他值得知道的特性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#07" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        奖励系统（0.7 重构）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 生态与相关项目
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 落地建议：分阶段路线
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. 落地建议：分阶段路线">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阶段一：建立可信基线（1–2 周）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阶段二：算法侧低成本收益（1 周）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阶段三：按需求分叉
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阶段四：跟进 v0.8
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 参考链接
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dictionary
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dictionary
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dictionary/git%20%26%20github/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git & github
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI and Math
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI and Math
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dictionary/AI_and_Math/alpaca%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E4%B8%8E%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpaca数据格式与其他数据格式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dictionary/AI_and_Math/numpy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Numpy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dictionary/AI_and_Math/%E7%90%86%E8%A7%A3softmax/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    理解softmax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Attention mechanism
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Attention mechanism
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dictionary/AI_and_Math/attention_mechanism/%E5%A2%9E%E5%8A%A0head%E6%95%B0%E7%9A%84%E5%8F%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    增加head数的变化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    single head Scaled Dot Product Attention
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    single head Scaled Dot Product Attention
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dictionary/AI_and_Math/single-head-Scaled-Dot-Product_Attention/single-head-Scaled-Dot-Product_Attention/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    single head Scaled Dot Product Attention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 摘要与选型判断
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 能力矩阵总览
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 能力矩阵总览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 后端支持
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 内置算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 关键工程特性清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hybridflow-verl-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 架构：HybridFlow 与 verl-core
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 架构：HybridFlow 与 verl-core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-hybrid-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Hybrid-Controller 编程模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-verl-core-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 verl-core 的四个可插拔组件（0.7 新架构）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-transferqueuev08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 TransferQueue（实验性，v0.8 将成默认）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-v08-v09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 v0.8 / v0.9 路线图（对我们做技术选型很重要）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 算法配置速查：怎么把论文变成配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 算法配置速查：怎么把论文变成配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-grpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 GRPO 基线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-drgrpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Dr.GRPO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-dapo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 DAPO 四件套
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-clip-cov-kl-cov" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 熵干预（Clip-Cov / KL-Cov）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 长度与截断的健康指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-rollout-correctionverl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Rollout Correction：verl 最有价值的特性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Rollout Correction：verl 最有价值的特性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-verl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 verl 对问题的定性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 两个正交机制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 方法清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 两种运行模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 官方推荐的三步上线路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 健康阈值（照着这个建 dashboard）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#48" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 代码位置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 三条流水线：同步 / 半异步 / 全异步
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 三条流水线：同步 / 半异步 / 全异步">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 选型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 为什么需要异步：长尾问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-fully-async" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 fully-async 架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 实测加速比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 权重同步
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-agent-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Agent Loop 与多轮 / 工具调用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Agent Loop 与多轮 / 工具调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 定位与破坏性变更
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-agent-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 自定义 Agent Loop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 执行流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-token-intoken-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 ⚠️ 必须避开的坑：token-in/token-out
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 多轮配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-tokenization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 tokenization 一致性检查
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-mtpmulti-token-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. MTP（Multi-Token Prediction）支持 ⭐
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. MTP（Multi-Token Prediction）支持 ⭐">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 支持范围与硬约束
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 依赖版本（最大的实操障碍）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 四种使用场景与配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 官方实测结论（重要，且有点反直觉）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-sft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 SFT 场景
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#76-mtp-rl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 MTP 在 RL 中的核心难题（学术侧背景）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#77-mtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7 我对 MTP 的落地判断
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-fp8-nvfp4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 低精度：FP8 与 NVFP4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. 低精度：FP8 与 NVFP4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-fp8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 两种 FP8 模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 支持范围
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 实测结果（含最关键的一条警告）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 结论
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 大模型性能调优要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. 大模型性能调优要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 显存预算的算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 采样参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-vllm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 vLLM 侧
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-megatron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Megatron 侧推荐配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 checkpoint 格式的选择（容易搞错）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-batching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 动态 batching（建议全开）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#97" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 数据要求
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 其他值得知道的特性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 其他值得知道的特性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#07" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        奖励系统（0.7 重构）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 生态与相关项目
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 落地建议：分阶段路线
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. 落地建议：分阶段路线">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阶段一：建立可信基线（1–2 周）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阶段二：算法侧低成本收益（1 周）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阶段三：按需求分叉
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阶段四：跟进 v0.8
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 参考链接
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="verl">verl 关键技术特性调研报告（实操侧）<a class="headerlink" href="#verl" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>调研日期：2026-08-10
+参考版本：verl 0.7（含 v0.8 / v0.9 路线图）
+关注点：对新技术的支持程度 + 具体怎么用
+配套报告：《RL算法调研报告.md》（算法侧）</p>
+</blockquote>
+<hr />
+<h2 id="0">0. 摘要与选型判断<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<p><strong>verl 是什么：</strong> ByteDance Seed 开源的 LLM RL 后训练框架，<a href="https://github.com/verl-project/verl">HybridFlow 论文</a>（EuroSys 2025）的官方实现。仓库已从 <code>volcengine/verl</code> 迁到 <strong><code>verl-project/verl</code></strong>，老链接是重定向。</p>
+<p><strong>为什么它是当前的事实标准：</strong> DAPO、Dr.GRPO、Entropy-Mechanism、MiniMax-M1、Qwen3 系列的公开 RL 工作基本都跑在 verl 或其 fork 上。50+ 社区项目基于它。这意味着<strong>论文里的算法你大概率能直接找到配置脚本，而不用自己复现</strong>。</p>
+<p><strong>0.7 版本的架构定性：</strong> 分成 verl-core（4 个可插拔组件：model engine / rollout engine / checkpoint engine / transfer queue）+ verl-trainer（3 条流水线：on-policy / one-step-off-policy / fully-async）。这个分层意味着<strong>换后端不需要改调用方代码</strong>。</p>
+<p><strong>本报告最需要注意的三条：</strong></p>
+<ol>
+<li><strong>MTP 目前只支持 <code>Megatron-Bridge + megatron</code> 组合，且依赖大量未合并的 PR</strong>（见 §7）。RL 场景下 MTP 是"能跑但还不成熟"，官方明确把「MTP RL 训练」列在 <strong>v0.8 路线图</strong>里。</li>
+<li><strong>0.7 有破坏性变更：SPMD rollout 模式被移除，server mode 成为唯一选项。</strong> 升级要改代码。</li>
+<li><strong>训练-推理不一致的校正（rollout correction）是 verl 最有实操价值的特性</strong>，官方称其配置预设经过"数万 GPU 小时"验证，开销仅 ~1% 显存 / 1-3% 算力。建议无论跑什么算法都先打开监控。</li>
+</ol>
+<hr />
+<h2 id="1">1. 能力矩阵总览<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1 后端支持<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>支持项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>训练引擎</strong></td>
+<td>FSDP、FSDP2、Megatron-LM、Megatron-Bridge、VeOmni（alpha）、TorchTitan</td>
+</tr>
+<tr>
+<td><strong>推理/rollout 引擎</strong></td>
+<td>vLLM（0.12.0）、SGLang（0.5.6）、HF Transformers、TensorRT-LLM（初步）</td>
+</tr>
+<tr>
+<td><strong>硬件</strong></td>
+<td>NVIDIA GPU、AMD ROCm（MI300X/MI325X/MI355X）、Ascend NPU</td>
+</tr>
+<tr>
+<td><strong>实验跟踪</strong></td>
+<td>wandb、swanlab、mlflow、tensorboard、Prometheus/Grafana</td>
+</tr>
+</tbody>
+</table>
+<p>训练后端选型（官方给的对比表）：</p>
+<table>
+<thead>
+<tr>
+<th>后端</th>
+<th>并行方式</th>
+<th>性能</th>
+<th>模型覆盖</th>
+<th>新模型跟进延迟</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FSDP</strong></td>
+<td>FSDP + SP</td>
+<td>Dense 中等 / MoE 低</td>
+<td>全部 transformer 模型</td>
+<td><strong>Day 0</strong></td>
+</tr>
+<tr>
+<td><strong>MCore</strong> (Megatron)</td>
+<td>DP+TP+PP+EP+CP</td>
+<td><strong>高</strong></td>
+<td>按 Megatron-Bridge 列表</td>
+<td>数周到一个月</td>
+</tr>
+<tr>
+<td><strong>VeOmni</strong></td>
+<td>FSDP+SP+EP</td>
+<td>中等</td>
+<td>按 VeOmni 列表</td>
+<td>约 1 周</td>
+</tr>
+</tbody>
+</table>
+<p><strong>选型建议：</strong> 中小模型（≤30B）或需要尝鲜新模型 → FSDP；大 MoE（Qwen3-235B、DeepSeek-671B）追求吞吐 → Megatron。<strong>MTP 只有 Megatron 路线可用。</strong></p>
+<h3 id="12">1.2 内置算法<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>verl 内置（无需自己实现）：</p>
+<p><strong>PPO、GRPO、GSPO、CISPO、SAPO、DAPO、Dr.GRPO、ReMax、REINFORCE++、RLOO、PRIME、PF-PPO、KL-Cov、Clip-Cov、OPO、GPG、OTB（Optimal Token Baseline）、DPPO（Divergence PPO）、OPD（On-Policy Distillation）、DRO（Direct Reward Optimization）、SPIN、SPPO</strong></p>
+<p>其中 <strong>CISPO 和 SAPO 是 0.7 新增</strong>——也就是说算法侧报告里提到的最新两个 IS 软化方法已经可以直接用。</p>
+<h3 id="13">1.3 关键工程特性清单<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Flash Attention 2、sequence packing、DeepSpeed Ulysses 序列并行</li>
+<li>LoRA（含 RL 场景）、Liger-kernel</li>
+<li>MoE 专家并行、router replay（vLLM 实验性）</li>
+<li>FP8 rollout / FP8 端到端、NVFP4 QAT</li>
+<li>多轮对话 + 工具调用（Agent Loop）</li>
+<li>模型型奖励 + 函数型奖励 + 混合奖励</li>
+<li>容错 checkpoint、full determinism（可复现训练）</li>
+<li>三条异步流水线（on-policy / one-step-off / fully-async）</li>
+<li>rollout KV cache offload（Mooncake-Store）</li>
+<li>性能分析：verl profiler、Nsight Systems、PyTorch profiler</li>
+</ul>
+<hr />
+<h2 id="2-hybridflow-verl-core">2. 架构：HybridFlow 与 verl-core<a class="headerlink" href="#2-hybridflow-verl-core" title="Permanent link">&para;</a></h2>
+<h3 id="21-hybrid-controller">2.1 Hybrid-Controller 编程模型<a class="headerlink" href="#21-hybrid-controller" title="Permanent link">&para;</a></h3>
+<p>verl 的核心设计是 <strong>single-controller + SPMD workers</strong>：</p>
+<ul>
+<li><strong>单控制器</strong> <code>RLTrainer</code> 负责编排（MPMD 风格），只发指令和元数据</li>
+<li><strong>SPMD workers</strong> 干重活（分布式前反向）</li>
+<li>Ray placement group 支撑 <code>ResourcePool</code> / <code>WorkerGroup</code> 抽象，让 actor / critic / reward / rollout 四个角色<strong>既能共享 GPU 又保持隔离</strong></li>
+</ul>
+<p>这个设计的实际好处：写一个新算法时，你写的是<strong>单进程视角的编排代码</strong>，不用手写集合通信。</p>
+<h3 id="22-verl-core-07">2.2 verl-core 的四个可插拔组件（0.7 新架构）<a class="headerlink" href="#22-verl-core-07" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+<th>接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Model Engine</strong></td>
+<td>训练侧引擎抽象</td>
+<td><code>initialize</code>、<code>optimizer_zero_grad</code>、<code>optimizer_step</code>、<code>lr_scheduler_step</code>、<code>forward_backward_batch</code>、<code>get_per_tensor_param</code>、<code>to</code></td>
+</tr>
+<tr>
+<td><strong>Rollout Engine</strong></td>
+<td>推理侧引擎抽象</td>
+<td><code>chat_completion</code>、<code>generate</code>（实现 <code>AsyncServerBase</code> 即可接新引擎）</td>
+</tr>
+<tr>
+<td><strong>Checkpoint Engine</strong></td>
+<td>跨节点权重同步</td>
+<td><code>send_weights</code> / <code>receive_weights</code>，后端 NCCL（broadcast）/ NIXL（P2P）</td>
+</tr>
+<tr>
+<td><strong>Transfer Queue</strong></td>
+<td>数据流与控制流分离</td>
+<td>零拷贝 tensor 传输、RDMA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>加一个新训练后端不需要改调用方任何代码</strong>——这是 0.7 重构的主要收益。</p>
+<h3 id="23-transferqueuev08">2.3 TransferQueue（实验性，v0.8 将成默认）<a class="headerlink" href="#23-transferqueuev08" title="Permanent link">&para;</a></h3>
+<p><strong>要解决的问题：</strong> 原来 <code>RLTrainer</code> 同时承载控制流和数据流，成了分发瓶颈。多模态负载和 router replay 把这个问题放大了。（他们试过用 Ray object store，因为缺少 tensor 优化和列级访问而效果不佳。）</p>
+<p><strong>现在的做法：</strong> trainer 只发指令和元数据，<strong>数据按引用传递</strong>。针对 PyTorch tensor 做了零拷贝和 RDMA 优化，可扩展到 ZeroMQ、NIXL、Ray RDT。</p>
+<p>0.7 里已支持多数据分区 + 更快的 tensor 零拷贝序列化。</p>
+<h3 id="24-v08-v09">2.4 v0.8 / v0.9 路线图（对我们做技术选型很重要）<a class="headerlink" href="#24-v08-v09" title="Permanent link">&para;</a></h3>
+<p><strong>v0.8 计划：</strong>
+- <strong>DataProto 废弃，改用 TensorDict + nested tensors</strong>（去掉 padding 开销）
+- 新 model engine 成为默认，<code>fsdp_workers.py</code> / <code>megatron_workers.py</code> 标记废弃
+- <strong>MTP RL 训练</strong>（重点，见 §7）
+- 长上下文的细粒度激活重计算 / offload
+- DeepSeek V3.2 支持
+- TensorRT-LLM rollout
+- vLLM worker 从 trainer 进程分离，走 CUDA IPC 更新权重
+- TransferQueue 合入主线</p>
+<p><strong>v0.9 计划：</strong>
+- fully-async 合入主线
+- 移除 legacy model engine
+- omni-model RL 训练（Qwen3-Omni、BAGEL）、vllm-omni rollout
+- SWEAgent / GUIAgent recipe</p>
+<p><strong>判断：</strong> 如果我们现在开始接入，<strong>建议直接按 0.7 的新 model engine + TensorDict 方向写</strong>，避免 v0.8 的废弃冲击。</p>
+<hr />
+<h2 id="3">3. 算法配置速查：怎么把论文变成配置<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>这一节是最直接可用的部分——把算法侧报告里的方法映射到实际配置。</p>
+<h3 id="31-grpo">3.1 GRPO 基线<a class="headerlink" href="#31-grpo" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">algorithm.adv_estimator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grpo</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">actor_rollout_ref.rollout.n</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16</span><span class="w">                    </span><span class="c1"># group size，DAPO 用 16，GRPO 常用 64</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">data.train_batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nt">actor_rollout_ref.actor.ppo_mini_batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">64</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nt">actor_rollout_ref.actor.ppo_epochs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nt">actor_rollout_ref.actor.clip_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nt">actor_rollout_ref.actor.loss_agg_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token-mean</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nt">actor_rollout_ref.actor.use_kl_loss</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nt">actor_rollout_ref.actor.kl_loss_coef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.001</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nt">actor_rollout_ref.actor.kl_loss_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">low_var_kl</span>
+</span></code></pre></div>
+<p><code>loss_agg_mode</code> 四个选项，直接对应不同论文：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>对应</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>token-mean</code></td>
+<td><strong>Dr.GRPO / DAPO 推荐</strong>（默认）</td>
+</tr>
+<tr>
+<td><code>seq-mean-token-mean</code></td>
+<td>复现原始 GRPO</td>
+</tr>
+<tr>
+<td><code>seq-mean-token-sum</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>seq-mean-token-sum-norm</code></td>
+<td>Dr.GRPO 专用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-drgrpo">3.2 Dr.GRPO<a class="headerlink" href="#32-drgrpo" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">algorithm.norm_adv_by_std_in_grpo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">           </span><span class="c1"># 关键：去掉 /std</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">actor_rollout_ref.actor.loss_agg_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">seq-mean-token-sum-norm</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">actor_rollout_ref.actor.loss_scale_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;常数&gt;</span><span class="w">   </span><span class="c1"># 可选归一化常数</span>
+</span></code></pre></div>
+<h3 id="33-dapo">3.3 DAPO 四件套<a class="headerlink" href="#33-dapo" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 1. Clip-Higher</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">actor_rollout_ref.actor.clip_ratio_low</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">actor_rollout_ref.actor.clip_ratio_high</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.28</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># 2. Dynamic Sampling（超采样 3x 再过滤）</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nt">data.gen_batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1536</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nt">data.train_batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nt">algorithm.filter_groups.enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nt">algorithm.filter_groups.metric</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">acc</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nt">algorithm.filter_groups.max_num_gen_batches</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">     </span><span class="c1"># 设为非正数 = 不限重试</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># 3. Token-level Loss</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nt">actor_rollout_ref.actor.loss_agg_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token-mean</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1"># 4. Overlong Reward Shaping</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="nt">data.max_response_length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20480</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="nt">reward_model.overlong_buffer.enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="nt">reward_model.overlong_buffer.len</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4096</span><span class="w">              </span><span class="c1"># 缓冲区，惩罚在此区间线性渐增</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="nt">reward_model.overlong_buffer.penalty_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="c1"># reward manager 要换</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="nt">reward_model.reward_manager</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dapo</span><span class="w">                   </span><span class="c1"># GRPO 用 naive</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="c1"># DAPO 不用 KL</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="nt">algorithm.use_kl_in_reward</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="nt">actor_rollout_ref.actor.use_kl_loss</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span></code></pre></div>
+<p><strong>官方复现脚本</strong>（<code>recipe/dapo/</code>，都锁定 commit <code>4f80e4</code>）：</p>
+<table>
+<thead>
+<tr>
+<th>脚本</th>
+<th>AIME 2024</th>
+<th>资源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run_dapo_qwen2.5_32b.sh</code></td>
+<td><strong>52%</strong></td>
+<td>16×8×H800</td>
+</tr>
+<tr>
+<td><code>run_dapo_wo_ds_qwen2.5_32b.sh</code></td>
+<td>50%</td>
+<td>16×8×H800</td>
+</tr>
+<tr>
+<td><code>run_dapo_early_qwen2.5_32b.sh</code></td>
+<td>44%</td>
+<td>16×8×H20</td>
+</tr>
+</tbody>
+</table>
+<p>注意：<code>recipe/dapo</code> <strong>分支</strong>是冻结的"原样复现"版本，main 上的同名目录跟随新特性演进。</p>
+<p><strong>一个已知坑：</strong> 开 CUDA graph（<code>enforce_eager=False</code>）可能导致模型性能下降，原因官方尚未定位。</p>
+<h3 id="34-clip-cov-kl-cov">3.4 熵干预（Clip-Cov / KL-Cov）<a class="headerlink" href="#34-clip-cov-kl-cov" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>bash<span class="w"> </span>recipe/dapo/7b_kl_cov.sh<span class="w">      </span><span class="c1"># 单机 Qwen2.5-7B</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>bash<span class="w"> </span>recipe/dapo/32b_kl_cov.sh<span class="w">     </span><span class="c1"># 多机 Qwen2.5-32B</span>
+</span></code></pre></div>
+<p>数据用 DAPO-Math-17k。具体的协方差阈值和系数需要读脚本，文档页面没列配置键。</p>
+<h3 id="35">3.5 长度与截断的健康指标<a class="headerlink" href="#35" title="Permanent link">&para;</a></h3>
+<p>一条实用经验：<strong><code>clip_ratio</code> 超过 0.1 通常意味着过度截断</strong>，此时应该提高 <code>max_response_length</code> 或清理数据。</p>
+<hr />
+<h2 id="4-rollout-correctionverl">4. Rollout Correction：verl 最有价值的特性<a class="headerlink" href="#4-rollout-correctionverl" title="Permanent link">&para;</a></h2>
+<p><strong>如果这份报告只有一节值得读，是这一节。</strong> 它解决的是 RL 训练崩溃的头号元凶。</p>
+<h3 id="41-verl">4.1 verl 对问题的定性<a class="headerlink" href="#41-verl" title="Permanent link">&para;</a></h3>
+<p>verl 列出了五种 off-policy 来源：
+1. rollout 与训练的精度/后端差异（FP8/BF16、vLLM/SGLang vs FSDP/Megatron）
+2. 异步设置里的 stale checkpoint
+3. replay buffer
+4. 本身就 off-policy 的算法（behavioral cloning、DAPO）
+5. 数据过滤或重加权</p>
+<p>它明确指出常见 bug：<strong>很多实现把 <code>π_old</code> 当作行为策略，完全忽略 <code>π_rollout</code>。</strong> 并强调 <strong>"This is not PPO's fault - PPO itself is mathematically correct."</strong>——错的是假设，而这个错误假设导致训练崩溃。</p>
+<h3 id="42">4.2 两个正交机制<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>作用方式</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IS weights</strong></td>
+<td>连续重加权</td>
+<td><code>rollout_is_weights</code></td>
+</tr>
+<tr>
+<td><strong>Rejection Sampling (RS)</strong></td>
+<td>二元过滤</td>
+<td><code>modified_response_mask</code>（被拒 token 置 0）</td>
+</tr>
+</tbody>
+</table>
+<p>两者可独立或同时启用。</p>
+<p>IS 权重的固定流水线：
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>安全边界  exp(clamp(log_ratio, -20, 20))     # 约 2e-9 ~ 5e8
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>截断      .clamp(max=rollout_is_threshold)   # 这就是 TIS 的 T
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>padding   置零
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>可选      batch 归一化
+</span></code></pre></div></p>
+<p><strong>关键设计：只截上界不截下界</strong>——"保留了小权重情形下的无偏性"。</p>
+<h3 id="43">4.3 方法清单<a class="headerlink" href="#43" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+<th>推荐阈值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Token-TIS</strong></td>
+<td>逐 token ratio，独立截断</td>
+<td>1.5 – 5.0</td>
+</tr>
+<tr>
+<td><strong>Seq-TIS</strong></td>
+<td><code>ρ_seq = ∏ρ_t</code>，乘性，对离群更敏感</td>
+<td>2.0 – 10.0</td>
+</tr>
+<tr>
+<td><strong>Seq-MIS</strong></td>
+<td>Seq-TIS + 序列级拒绝</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Geo-RS</strong></td>
+<td><code>seq_mean_k1</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>K3-RS</strong></td>
+<td><code>seq_mean_k3</code>，小 KL 下更稳</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>IcePop</strong></td>
+<td>阈值写成 <code>"0.5_5.0"</code>，band 外权重归零，不动 response_mask</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Seq-TIS vs Seq-MIS 的选择：</strong> 数据干净、mismatch 中等 → Seq-TIS（"最大化信息效率"）；mismatch 严重、高权重样本大概率是垃圾 → Seq-MIS（"作为硬信任域过滤器"）。</p>
+<p>RS 选项是规范化字符串，逗号分隔。聚合方式 <code>token</code> / <code>seq_sum</code> / <code>seq_mean</code> / <code>seq_max</code>；估计器 <code>k1</code>（<code>-log r</code>）/ <code>k2</code>（<code>0.5·(log r)²</code>）/ <code>k3</code>（<code>exp(log r) - 1 - log r</code>）。k1 取 <code>"lower_upper"</code> 双边界，k2/k3 只取正上界。<code>seq_max</code> 只能配 k2/k3。</p>
+<h3 id="44">4.4 两种运行模式<a class="headerlink" href="#44" title="Permanent link">&para;</a></h3>
+<p><strong>Decoupled 模式</strong>（<code>bypass_mode: false</code>）：三个策略都在，通过 <code>actor.compute_log_prob()</code> 算 <code>π_old</code>。好处是 batch size 不变性 + 两种 drift 分别校正，代价是多一次前向。</p>
+<p><strong>Bypass 模式</strong>（<code>bypass_mode: true</code>）：令 <code>π_old = π_rollout</code>，省掉那次前向。<code>loss_type</code> 二选一：
+- <code>ppo_clip</code>（默认）—— ratio <code>π_θ/π_rollout</code> 隐式完成 IS
+- <code>reinforce</code> —— 显式即时 IS 权重，无裁剪</p>
+<p><strong>官方推荐 bypass 模式作为基线。</strong></p>
+<h3 id="45">4.5 配置<a class="headerlink" href="#45" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">algorithm</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">rollout_correction</span><span class="p">:</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">rollout_is</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span><span class="w">              </span><span class="c1"># token | sequence | null</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">rollout_is_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span><span class="w">      </span><span class="c1"># float，或 "0.5_5.0" 走 IcePop</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">rollout_is_batch_normalize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">rollout_rs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">               </span><span class="c1"># 如 "seq_mean_k1"、"token_k1,seq_max_k2"</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">rollout_rs_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="nt">bypass_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nt">loss_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ppo_clip</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nt">actor_rollout_ref</span><span class="p">:</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">  </span><span class="nt">rollout</span><span class="p">:</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="nt">calculate_log_probs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">      </span><span class="c1"># 必须打开</span>
+</span></code></pre></div>
+<p>bypass 模式额外需要三项：
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">actor_rollout_ref.actor.use_rollout_log_probs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">actor_rollout_ref.actor.policy_loss.loss_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bypass_mode</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nt">actor_rollout_ref.actor.policy_loss.rollout_correction</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nv">...</span><span class="p p-Indicator">}</span>
+</span></code></pre></div></p>
+<p><strong>预设（强烈建议用预设而非手调）</strong> —— <code>RolloutCorrectionConfig</code> 提供：<code>decoupled_token_is()</code>、<code>decoupled_seq_is()</code>、<code>decoupled_seq_is_rs()</code>、<code>decoupled_geo_rs()</code>、<code>decoupled_k3_rs()</code>、<code>bypass_ppo_clip()</code>、<code>bypass_pg_is()</code>、<code>disabled()</code> 等。文档称这些组合经过<strong>"数万 GPU 小时"验证</strong>。Token IS + token RS、纯 token RS、纯 sequence RS 也能跑但需手配。</p>
+<h3 id="46">4.6 官方推荐的三步上线路径<a class="headerlink" href="#46" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>第一步：只观测
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  rollout_is: null, rollout_rs: null, calculate_log_probs: true
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  → 看 rollout_corr/kl、log_ppl_abs_diff、chi2_token，摸清 gap 大小
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>第二步：离群多就先加 RS
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  → 只过滤，不动梯度
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>第三步：指标合理后再加 IS 校正
+</span></code></pre></div>
+<h3 id="47-dashboard">4.7 健康阈值（照着这个建 dashboard）<a class="headerlink" href="#47-dashboard" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>健康范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rollout_is_mean</code></td>
+<td>接近 1.0（&lt; 0.5 或 &gt; 2.0 报警）</td>
+</tr>
+<tr>
+<td><code>rollout_is_eff_sample_size</code></td>
+<td>&gt; 0.3（<code>1/mean(w²)</code>，占 batch 比例）</td>
+</tr>
+<tr>
+<td><code>rollout_is_std</code></td>
+<td>&lt; 1.0</td>
+</tr>
+<tr>
+<td><code>\|kl\|</code></td>
+<td>&lt; 0.1</td>
+</tr>
+<tr>
+<td><code>chi2_token</code></td>
+<td>&lt; 1.0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>排障：</strong> IS 分布过宽 → 收紧阈值或换更激进的聚合；均值偏离 1.0 → 先确认 <code>calculate_log_probs=True</code> 且 rollout logprob 真的传到了 helper，再查系统性偏移。</p>
+<p><strong>开销：约 1% 显存、1-3% 算力。</strong> 这个价格买训练稳定性非常划算。</p>
+<h3 id="48">4.8 代码位置<a class="headerlink" href="#48" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>verl/trainer/ppo/rollout_corr_helper.py</code> —— <code>compute_rollout_correction_and_rejection_mask()</code>、<code>compute_offpolicy_metrics()</code></li>
+<li><code>core_algos.py</code> —— loss 集成</li>
+<li><code>ray_trainer.py</code> —— bypass 模式接线</li>
+<li>配置类：<code>trainer/config/algorithm.py</code>、<code>workers/config/actor.py</code></li>
+<li>示例：<code>examples/rollout_correction/</code>，测试：<code>tests/trainer/ppo/test_rollout_corr.py</code></li>
+</ul>
+<hr />
+<h2 id="5">5. 三条流水线：同步 / 半异步 / 全异步<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<h3 id="51">5.1 选型<a class="headerlink" href="#51" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>流水线</th>
+<th>特点</th>
+<th>适用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>on-policy</strong></td>
+<td>rollout 与训练串行，GPU 共置，算法严格正确</td>
+<td><strong>建立 baseline</strong></td>
+</tr>
+<tr>
+<td><strong>one-step-off-policy</strong></td>
+<td>用上一步参数生成下一批，与当前训练重叠；资源隔离</td>
+<td>通用提效，<strong>效率提升 20%–40%</strong></td>
+</tr>
+<tr>
+<td><strong>fully-async</strong></td>
+<td>trainer 与 rollouter 分离节点，流式传输 + staleness 控制 + partial rollout</td>
+<td><strong>128+ GPU 或长 CoT</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="52">5.2 为什么需要异步：长尾问题<a class="headerlink" href="#52" title="Permanent link">&para;</a></h3>
+<p><strong>关键洞察（官方原话的要点）：</strong> 在 colocate 模式下，<strong>给 rollout 更多资源也解决不了慢样本造成的空转</strong>。资源隔离后，rollout 和 train 各自的时间可能都变长了（各自资源变少），但两者的<strong>重叠</strong>降低了端到端时间。</p>
+<p>这是理解异步收益的正确心智模型——不是"让某一步更快"，而是"让空转时间被填满"。</p>
+<h3 id="53-fully-async">5.3 fully-async 架构<a class="headerlink" href="#53-fully-async" title="Permanent link">&para;</a></h3>
+<p>四个组件：
+1. <strong>Rollouter</strong> —— 逐样本生成，受新鲜度限制约束
+2. <strong>MessageQueue</strong> —— 暂存生成的样本
+3. <strong>Trainer</strong> —— 从队列取样本，训练若干步后触发参数同步
+4. <strong>ParameterSynchronizer</strong> —— 基于 NCCL 的参数同步</p>
+<p><strong>资源隔离是硬性要求</strong>：与 hybrid_engine 不同，Rollouter 和 Trainer 使用独立计算资源，必须分别指定。</p>
+<h3 id="54">5.4 配置<a class="headerlink" href="#54" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># 资源分配（必须分开指定）</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">trainer.nnodes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">trainer.n_gpus_per_node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nt">rollout.nnodes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nt">rollout.n_gpus_per_node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># 核心异步参数</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nt">async_training.trigger_parameter_sync_step</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;N&gt;</span><span class="w">   </span><span class="c1"># 多少次本地更新后同步参数</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="nt">async_training.staleness_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span><span class="w">           </span><span class="c1"># 允许的陈旧样本比例</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="nt">async_training.require_batches</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;N&gt;</span><span class="w">               </span><span class="c1"># 一次取几个 ppo_mini_batch_size</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="nt">async_training.partial_rollout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">              </span><span class="c1"># 同步时是否中断并恢复进行中的 rollout</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1"># 数据（注意这里换了语义）</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="nt">rollout.total_rollout_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;总样本数&gt;</span><span class="w">            </span><span class="c1"># 取代 train_batch_size * steps</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="nt">data.gen_batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">                            </span><span class="c1"># 流式</span>
+</span></code></pre></div>
+<p><strong>staleness_threshold 的语义：</strong>
+- <code>= 0</code> → 同步训练。两次更新之间生成固定样本数 <code>trigger_parameter_sync_step × require_batches × ppo_mini_batch_size</code>
+- <code>&gt; 0</code> → 异步。上限为 <code>(1+staleness_threshold) × (上式) - num_staleness_sample</code></p>
+<p><strong>官方建议把这个值设成小于 1</strong>，否则精度会掉。</p>
+<h3 id="55">5.5 实测加速比<a class="headerlink" href="#55" title="Permanent link">&para;</a></h3>
+<p>Qwen2.5-Math-7B，<code>max_response_length ≈ 28K</code>：</p>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>切分</th>
+<th>400 步加速比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>32 GPU</td>
+<td>16:16</td>
+<td><strong>2.66×</strong></td>
+</tr>
+<tr>
+<td>64 GPU</td>
+<td>32:32</td>
+<td>1.92×</td>
+</tr>
+<tr>
+<td>128 GPU</td>
+<td>64:64</td>
+<td>2.35×</td>
+</tr>
+</tbody>
+</table>
+<p>128 GPU 上的模式对比：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>耗时</th>
+<th>加速</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Colocate 同步（基线）</td>
+<td>1d 16h 48m</td>
+<td>1.0×</td>
+</tr>
+<tr>
+<td>Stream off-policy</td>
+<td>1d 1h 53m</td>
+<td>1.6×</td>
+</tr>
+<tr>
+<td>Async stream + stale + partial</td>
+<td><strong>17h 22m</strong></td>
+<td><strong>2.35×</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Qwen3-30B-A3B-Base（8K response，96:32 资源切分）：<strong>1.72×</strong></p>
+<p><strong>核心规律：序列越长，加速越明显</strong>（长尾效应越显著）。这也说明：如果我们的任务 response 短（&lt;4K），异步的收益有限，不值得引入复杂度。</p>
+<h3 id="56">5.6 权重同步<a class="headerlink" href="#56" title="Permanent link">&para;</a></h3>
+<p>0.7 里 one-step-off-policy 和 fully-async 都改为<strong>通过 checkpoint engine 同步权重，带 bucketing 和 pipelining</strong>。Checkpoint Engine 两个后端：NCCL（broadcast）、NIXL（P2P）。</p>
+<p>设计动机与 Laminar、AReaL、StreamRL、LlamaRL、PipelineRL 一致：<strong>解耦 rollout 与训练</strong>换来弹性 rollout 伸缩、容错、异构硬件支持。</p>
+<hr />
+<h2 id="6-agent-loop">6. Agent Loop 与多轮 / 工具调用<a class="headerlink" href="#6-agent-loop" title="Permanent link">&para;</a></h2>
+<h3 id="61">6.1 定位与破坏性变更<a class="headerlink" href="#61" title="Permanent link">&para;</a></h3>
+<p>Agent Loop 在 0.4.2 引入（alpha），是"多轮 rollout 和 agentic RL 的通用接口"。<strong>注意 0.7 的破坏性变更：SPMD rollout 模式被移除，server mode 成为默认且唯一。</strong> 官方理由是 agentic、多轮场景让旧路径"力不从心"。</p>
+<p>Server mode 的行为像在线服务而非离线批推理，逐样本客户端请求 → 动态 batching + 更好的多轮吞吐。附带好处是<strong>不需要侵入式修改推理引擎</strong>，接 vLLM / SGLang / TensorRT-LLM 都更容易。</p>
+<p>设计边界很清楚——<strong>明确不管"工具怎么定义、怎么调用"</strong>，那是用户的事。</p>
+<h3 id="62-agent-loop">6.2 自定义 Agent Loop<a class="headerlink" href="#62-agent-loop" title="Permanent link">&para;</a></h3>
+<p>只需实现一个方法：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">AgentLoopBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sampling_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AgentLoopOutput</span><span class="p">:</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<p><code>**kwargs</code> 携带 <code>verl.utils.dataset.RLHFDataset</code> 的数据集字段。<code>run</code> 内部可以自由调 LLM、打工具（web search / DB / 代码沙箱）、与环境交互、做反思。</p>
+<p>返回 <code>AgentLoopOutput</code> 三个字段：
+- <code>prompt_ids</code>
+- <code>response_ids</code>（LLM token + 工具返回 token）
+- <code>response_mask</code>（<strong>生成 token 为 1，工具返回 token 为 0</strong>）</p>
+<p>内置两个：<code>SingleTurnAgentLoop</code>、<code>ToolAgentLoop</code>（ReAct 风格）。用户可自己扩展 SWEAgentLoop / GUIAgentLoop（官方 recipe 排在 v0.9）。</p>
+<p><strong>一个当前限制：</strong> 一个 <code>AgentLoopOutput</code> 只对应一条轨迹，多轨迹输出仍在讨论中。</p>
+<h3 id="63">6.3 执行流程<a class="headerlink" href="#63" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>PPOTrainer 采样 batch
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  → AgentLoopManager.generate_sequences
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    → 对所有 async LLM server 调 wake_up（同步推理引擎与训练引擎权重）
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    → batch 切块分发给各 AgentLoopWorker
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>      → 每个 worker 为每个 prompt 起一个 AgentLoopBase 实例，驱动 run 协程
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    → 汇总结果回 trainer
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    → 对 server 调 sleep（释放 KV cache，权重 offload 到 CPU）
+</span></code></pre></div>
+<p>worker 内部跑大量协程；若 worker 数等于 batch size，则每个 worker 处理一个 prompt。生成时客户端首轮选<strong>在飞请求最少</strong>的 server，之后 <code>AsyncLLMServer</code> 通过 IPC/RPC 与 model runner 通信。</p>
+<p>引擎差异：
+- <strong>vLLM</strong> —— Async LLM Engine 与 server 同进程，ModelRunner 与 FSDP/Megatron worker 在一起，走 ZeroMQ，server 直接调引擎
+- <strong>SGLang</strong> —— Async LLM Engine 位于 FSDP/Megatron worker-0 内，派生 ModelRunner 子进程，同样走 ZeroMQ，server 远程调 worker-0</p>
+<p><code>LLMServerClient</code> 作为多 server 代理，负责负载均衡 + <strong>sticky session</strong>（把 <code>request_id</code> 绑定到同一 server，保证后续轮次落在同一实例）。</p>
+<h3 id="64-token-intoken-out">6.4 ⚠️ 必须避开的坑：token-in/token-out<a class="headerlink" href="#64-token-intoken-out" title="Permanent link">&para;</a></h3>
+<p><strong>这是 verl 文档里最重要的一条经验，直接决定训练能否收敛。</strong></p>
+<p>主流 agent 框架（LangGraph、CrewAI、LlamaIndex）都用 chat completion，把历史存成 messages。但 verl 在 DAPO（单轮）和 retool（多轮）上的实测发现：<strong>对最终 messages 重新 apply chat template 得到的 token id，与逐轮拼接的 prompt/response id 不一致。</strong></p>
+<p>两个漂移来源：
+1. <strong>tool parser 改写 content</strong> —— assistant content 里的 <code>&lt;tool_call&gt;</code> 块被抽成结构化 <code>tool_calls</code> 字段，重新编码后与原始生成的 id 不匹配
+2. <strong>decode-then-encode 往返</strong>本身引入不匹配</p>
+<p><strong>后果：轨迹偏离策略模型分布。文档明确报告：对最终历史 apply chat template 导致 PPO 即使在单轮场景也不收敛。</strong></p>
+<p>正确做法：<strong>token-in/token-out</strong>，或 delta-based tokenization。</p>
+<h3 id="65">6.5 多轮配置<a class="headerlink" href="#65" title="Permanent link">&para;</a></h3>
+<p>基础开关：
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">actor_rollout_ref</span><span class="p">:</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="nt">rollout</span><span class="p">:</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">        </span><span class="nt">multi_turn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"sglang"</span>
+</span></code></pre></div></p>
+<p><strong>方式一：自定义工具类（有状态，需生命周期管理）</strong> —— 实现 <code>verl.tools.base_tool.BaseTool</code>：
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">actor_rollout_ref.rollout.tool_kwargs.tools_config_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;tool.yaml 路径&gt;</span>
+</span></code></pre></div>
+工具若产出图像/视频，返回 <code>ToolResponse</code> 带 image/video 列表，先用 <code>verl.utils.dataset.vision_utils.process_image</code> / <code>process_video</code> 处理。</p>
+<p><strong>方式二：函数工具（无状态，推荐，简单得多）</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">actor_rollout_ref</span><span class="p">:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="nt">rollout</span><span class="p">:</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">        </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">async</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">        </span><span class="nt">multi_turn</span><span class="p">:</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">            </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">            </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hermes</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">            </span><span class="nt">function_tool_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/your_tools.py</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">        </span><span class="nt">agent</span><span class="p">:</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">            </span><span class="nt">default_agent_loop</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tool_agent</span>
+</span></code></pre></div></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">verl.tools.function_tool</span><span class="w"> </span><span class="kn">import</span> <span class="n">function_tool</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nd">@function_tool</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_weather</span><span class="p">(</span><span class="n">city</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="sd">"""Get the current weather for a city.</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="sd">    Args:</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="sd">        city: The city to look up, e.g. "Tokyo" or "San Francisco".</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="sd">    """</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"temperature_c"</span><span class="p">:</span> <span class="mf">17.3</span><span class="p">,</span> <span class="s2">"condition"</span><span class="p">:</span> <span class="s2">"drizzle"</span><span class="p">}</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="nd">@function_tool</span><span class="p">(</span><span class="s2">"calculator"</span><span class="p">)</span>          <span class="c1"># 显式覆盖名字</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">calculator</span><span class="p">(</span><span class="n">expression</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">    </span><span class="sd">"""Evaluate a Python-style arithmetic expression.</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="sd">    Args:</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="sd">        expression: A Python-style arithmetic expression, e.g. "(3+4)*5".</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="sd">    """</span>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="p">{</span><span class="s2">"__builtins__"</span><span class="p">:</span> <span class="p">{}},</span> <span class="p">{}))</span>
+</span></code></pre></div>
+<p>schema 靠 <code>transformers.utils.get_json_schema()</code> 从类型标注 + Google 风格 docstring 推断，支持基础类型、泛型（<code>list[T]</code>、<code>dict[K,V]</code>）、union、<code>Optional</code>、<code>Literal</code>。返回值可以是 <code>str</code>、<code>dict</code>、<code>ToolResponse</code>，或元组 <code>(response, reward)</code> / <code>(response, reward, metrics)</code>——<strong>元组形式可以让工具直接贡献奖励</strong>，这个设计很实用。</p>
+<p><code>function_tool_path</code> 与 <code>tool_config_path</code> 可共存，启动时合并成一个 registry。</p>
+<h3 id="66-tokenization">6.6 tokenization 一致性检查<a class="headerlink" href="#66-tokenization" title="Permanent link">&para;</a></h3>
+<p>verl 用 <strong>delta-based tokenization</strong> 识别 assistant token：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">prev</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">apply_chat_template</span><span class="p">(</span><span class="n">messages</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="n">add_generation_prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="n">tokenize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">curr</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">apply_chat_template</span><span class="p">(</span><span class="n">messages</span><span class="p">[:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">add_generation_prompt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tokenize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">token_ids</span> <span class="o">+=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">curr</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">prev</span><span class="p">):],</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">loss_mask</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">token_ids</span><span class="p">)</span>
+</span></code></pre></div>
+<p>自带 sanity check：
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">actor_rollout_ref.rollout.multi_turn.tokenization_sanity_check_mode</span><span class="p">:</span><span class="w"> </span><span class="s">"ignore_strippable"</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1"># 可选："strict" | "ignore_strippable" | "disable"</span>
+</span></code></pre></div></p>
+<p><strong>特殊情况——reasoning content 剥离：</strong> Qwen/QwQ-32B、Qwen3 这类模型的 chat template 对 <code>&lt;think&gt;</code> 标签的剥离行为不一致，verl 对它们回退到固定的基础对话：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">BASE_CHAT_HISTORY</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"You are a helpful assistant."</span><span class="p">},</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>   <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"I am a user."</span><span class="p">}</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>默认训练用<strong>含 reasoning 的完整回答</strong>。若要与生产推理（无 reasoning）对齐：
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nt">actor_rollout_ref.rollout.multi_turn.use_inference_chat_template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span></code></pre></div></p>
+<p><strong>多模态数据集处理：</strong> 多轮 RL 里工具会动态产出模态，此时建议关掉预处理：
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nt">return_multi_modal_inputs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">    </span><span class="c1"># 默认 True（数据集预处理好 image/video tensor）</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="7-mtpmulti-token-prediction">7. MTP（Multi-Token Prediction）支持 ⭐<a class="headerlink" href="#7-mtpmulti-token-prediction" title="Permanent link">&para;</a></h2>
+<p>这是用户特别关注的部分，也是本报告需要说得最直白的部分：<strong>verl 的 MTP 目前处于"能跑、但约束多、且收益尚不明确"的阶段。</strong></p>
+<h3 id="71">7.1 支持范围与硬约束<a class="headerlink" href="#71" title="Permanent link">&para;</a></h3>
+<p><strong>支持的模型：</strong> mimo-7B-RL、Qwen-next、DeepSeek 系列</p>
+<p><strong>两个硬约束：</strong></p>
+<ol>
+<li><strong>训练引擎：只支持 <code>mbridge/Megatron-Bridge + megatron</code> 组合</strong>——文档原话是"Only supports"，其他组合都不兼容。<strong>FSDP 路线用不了 MTP。</strong></li>
+<li><strong>推理引擎：任意引擎均可</strong>，前提是模型在该引擎自己的兼容列表里。</li>
+</ol>
+<h3 id="72">7.2 依赖版本（最大的实操障碍）<a class="headerlink" href="#72" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>mbridge</strong></td>
+<td>PR #62 的补丁（已合入 main）</td>
+</tr>
+<tr>
+<td><strong>Megatron-Bridge</strong></td>
+<td>PR #2387，mimo-7B-RL 需要（<strong>尚未合并</strong>）</td>
+</tr>
+<tr>
+<td><strong>Megatron-LM</strong></td>
+<td>dev commit <code>23e092f41ec8bc659020e401ddac9576c1cfed7e</code>（加入 MTP + CP 训练）</td>
+</tr>
+<tr>
+<td><strong>SGLang</strong></td>
+<td>分支 <code>fix_mtp_update_weights_from_tensor</code>（PR #17870，修 MTP 权重按 tensor 更新时的 OOM）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>这意味着要跑 MTP 得手动拼一套非发布版环境</strong>，其中还有未合并的 PR。工程上不便宜，需要预留调试时间。</p>
+<h3 id="73">7.3 四种使用场景与配置<a class="headerlink" href="#73" title="Permanent link">&para;</a></h3>
+<p>所有配置键都在 <code>actor_rollout_ref.model.mtp</code> 前缀下。</p>
+<p><strong>场景一：只加载 MTP 权重（不训练）</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nt">actor_rollout_ref.model.mtp.enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span></code></pre></div>
+代价是额外显存；好处是<strong>导出的 checkpoint 带 MTP 模块，可直接在线部署</strong>（部署时享受 MTP 加速）。</p>
+<p><strong>场景二：全参数 MTP 训练</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nt">actor_rollout_ref.model.mtp.enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="nt">actor_rollout_ref.model.mtp.enable_train</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="nt">actor_rollout_ref.model.mtp.mtp_loss_scaling_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+</span></code></pre></div></p>
+<p><strong>场景三：仅训练 MTP（冻结 encoder，loss 只作用于 MTP 参数）</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nt">actor_rollout_ref.model.mtp.enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="nt">actor_rollout_ref.model.mtp.enable_train</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="nt">actor_rollout_ref.model.mtp.detach_encoder</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span></code></pre></div></p>
+<p><strong>场景四：MTP 加速 rollout</strong></p>
+<p>vLLM：
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nt">actor_rollout_ref.model.mtp.enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="nt">actor_rollout_ref.model.mtp.enable_rollout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="nt">actor_rollout_ref.model.mtp.method</span><span class="p">:</span><span class="w"> </span><span class="s">"mtp"</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="nt">actor_rollout_ref.model.mtp.num_speculative_tokens</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span></code></pre></div></p>
+<p>SGLang：
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nt">actor_rollout_ref.model.mtp.enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nt">actor_rollout_ref.model.mtp.enable_rollout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="nt">actor_rollout_ref.model.mtp.speculative_algorithm</span><span class="p">:</span><span class="w"> </span><span class="s">"EAGLE"</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="nt">actor_rollout_ref.model.mtp.speculative_num_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="nt">actor_rollout_ref.model.mtp.speculative_eagle_topk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="nt">actor_rollout_ref.model.mtp.speculative_num_draft_tokens</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+</span></code></pre></div></p>
+<h3 id="74">7.4 官方实测结论（重要，且有点反直觉）<a class="headerlink" href="#74" title="Permanent link">&para;</a></h3>
+<p><strong>训练效果方面</strong>（mimo-7B-math，<code>max_response_length=8k</code>）：</p>
+<blockquote>
+<p><strong>只有一种配置真正改变了训练结果：base model 自带 MTP 参数 + loss 作用于全部参数 + scaling factor = 0.1。</strong></p>
+</blockquote>
+<p>以下配置<strong>没有可测量的差异</strong>：
+- base model 不带 MTP 参数
+- 带 MTP 参数但不训练
+- 训练 MTP 但 scaling factor = 0
+- 训练 MTP 且 detach encoder，factor = 0.1</p>
+<p><strong>但文档的推荐却是 <code>detach_encoder=True</code>。</strong> 这里存在一个张力：唯一有效果的配置是全参数训练，而推荐的配置在他们自己的实验里没有效果差异。我的理解是推荐 detach 是出于<strong>稳定性和不干扰主任务</strong>的考虑（detach 后 MTP 训练不会污染主 loss 的梯度），而非追求指标提升。<strong>如果我们要用，建议两种都跑 ablation，不要盲信推荐值。</strong></p>
+<p><strong>rollout 加速方面（这条最需要注意）：</strong></p>
+<blockquote>
+<p>开 MTP 后<strong>接受率提升约 14%，但吞吐没有跟上</strong>。在 H20 上跑 mimo-7B + SGLang，<strong>rollout 吞吐掉了约一半。</strong></p>
+</blockquote>
+<p>原因归结到 tensor core 算力：<strong>H20 只有 148 FP16 TFLOPS，而 H800 是 1671、H200 是 1979。</strong> 投机解码是"用算力换延迟"，H20 这类算力受限的卡上这笔交易不划算。</p>
+<p><strong>官方当前建议：推理阶段先别开 MTP 加速。</strong> rollout 阶段的投机逻辑还在优化中。</p>
+<h3 id="75-sft">7.5 SFT 场景<a class="headerlink" href="#75-sft" title="Permanent link">&para;</a></h3>
+<p>SFT 支持 MTP，<strong>配置键与 RL 完全相同</strong>。示例脚本：
+<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>examples/sft/gsm8k/run_mimo_7b_mtp_megatron.sh
+</span></code></pre></div></p>
+<p>结果：mimo-7B-math + gsm8k 上，MTP 层对主 loss "影响有限"，但 detach 后 <code>mtp_loss</code> 收敛到更高的点。</p>
+<p>贡献方是 <a href="https://github.com/meituan-search">meituan-search</a>，图表和 wandb 记录在 verl-community 仓库和 <code>hou-zg-meituan</code> 的 wandb 项目下。</p>
+<h3 id="76-mtp-rl">7.6 MTP 在 RL 中的核心难题（学术侧背景）<a class="headerlink" href="#76-mtp-rl" title="Permanent link">&para;</a></h3>
+<p>verl 文档没讲透为什么 MTP 在 RL 里这么难。补充这个背景，对我们判断值不值得投入很关键：</p>
+<p><strong>核心问题：RL 训练过程中 MTP 的接受长度会快速退化。</strong></p>
+<p>一篇 ACL 2026 Findings 直接点明了两个卡点：<strong>"vanilla 预训练模型中缺少 MTP" 以及 "RL 训练中 MTP 接受长度的快速退化"</strong>（<a href="https://aclanthology.org/anthology-files/pdf/findings/2026.findings-acl.1871.pdf">ACL 2026</a>）。<a href="https://arxiv.org/html/2606.12370v1">Accelerating RL Training via MTP with Rejection Sampling</a> 报告了同样的观察，并指出这限制了 rollout 加速的上限。</p>
+<p><strong>机制上的矛盾很清楚：</strong> RL rollout 是生成瓶颈，MTP 看起来是"免费加速"；但 RL 过程中策略持续漂移，而<strong>策略漂移恰恰会破坏 draft head 与 target 的对齐</strong>。这是一个内生冲突，不是实现 bug。</p>
+<p><strong>已有的应对：</strong> 美团 + 中科院的工作在 RLVR 过程中<strong>联合训练 MTP heads 并校准 loss 系数</strong>，代码在 <a href="https://github.com/MarkXCloud/RL-MTP">MarkXCloud/RL-MTP</a>（<a href="https://arxiv.org/pdf/2605.28184">论文</a>）。这个工作把 MTP 训练拆解成三种范式——<strong>Detach、Cross-Entropy loss、Policy loss</strong>——并解释了各自成功/失败的原因。其中的判断是：policy loss 与 RL 目标对齐得更好，但存在实际困难。这个三分法正好对应 verl 里 <code>detach_encoder</code> 和 <code>mtp_loss_scaling_factor</code> 两个旋钮背后的设计空间。</p>
+<p><strong>另一个值得知道的反驳：</strong> 有工作挑战"draft 是免费的"这一普遍假设，指出在百万 token 上下文下 <strong>draft 的 KV cache 开销会变成真实的税</strong>（<a href="https://arxiv.org/html/2607.21535v1">arXiv:2607.21535</a>）。</p>
+<p><strong>正面参考：</strong> FastMTP 报告在 7 个 benchmark 上平均 <strong>2.03× 加速</strong>且输出无损，比 vanilla MTP 改善 82%（<a href="https://arxiv.org/html/2509.18362v1">arXiv:2509.18362</a>）。Google 在 Gemma 4 上把 31B target 配 MTP head 作轻量 drafter，用来吃掉空闲算力（<a href="https://blog.google/innovation-and-ai/technology/developers-tools/multi-token-prediction-gemma-4/">blog</a>）。EntMTP 还提到 MTP 的一个附带好处：<strong>提升训练数据密度并改善生成质量</strong>，这个收益与解码加速无关（<a href="https://arxiv.org/html/2606.27550v1">arXiv:2606.27550</a>）。</p>
+<h3 id="77-mtp">7.7 我对 MTP 的落地判断<a class="headerlink" href="#77-mtp" title="Permanent link">&para;</a></h3>
+<p>分三种情况：</p>
+<table>
+<thead>
+<tr>
+<th>我们的目标</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>想让最终模型带 MTP 能力便于部署加速</strong></td>
+<td>✅ 值得做。用<strong>场景一</strong>（只加载不训练）或<strong>场景二</strong>（全参训练，factor=0.1）。导出的 checkpoint 直接带 MTP 模块</td>
+</tr>
+<tr>
+<td><strong>想用 MTP 加速 RL 训练本身的 rollout</strong></td>
+<td>⚠️ <strong>暂缓</strong>。官方明确不推荐，H20 上还会掉一半吞吐。等 v0.8 的「MTP RL 训练」和 rollout 投机逻辑优化</td>
+</tr>
+<tr>
+<td><strong>想借 MTP 提升模型质量</strong></td>
+<td>⚠️ 证据不足。verl 的实验里只有一种配置有可测量差异，SFT 里对主 loss "影响有限"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>前置条件检查：</strong>
+1. 我们是不是走 Megatron 路线？（不是的话 MTP 直接不可用）
+2. 我们的卡是什么？（H20 这类低 tensor core 算力的卡，rollout 加速是负收益）
+3. 能不能接受手动拼未发布依赖？（含未合并 PR）</p>
+<p><strong>最实用的一条：关注 v0.8。</strong> 官方路线图明确列了「MTP RL 训练」，等它进主线会省掉大量环境搭建成本。</p>
+<hr />
+<h2 id="8-fp8-nvfp4">8. 低精度：FP8 与 NVFP4<a class="headerlink" href="#8-fp8-nvfp4" title="Permanent link">&para;</a></h2>
+<h3 id="81-fp8">8.1 两种 FP8 模式<a class="headerlink" href="#81-fp8" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>训练</th>
+<th>Rollout</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FP8 Rollout Only</strong></td>
+<td>BF16</td>
+<td>FP8</td>
+</tr>
+<tr>
+<td><strong>FP8 End-to-End</strong></td>
+<td>FP8（Megatron）</td>
+<td>FP8（vLLM）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>量化方案：</strong> blockwise，即 DeepSeek 方案——<strong>激活 1×128 量化，权重 128×128 量化</strong>。</p>
+<p>rollout-only 模式下 verl 给 vLLM 打了补丁，在生成时即时量化权重，替换 <code>Fp8LinearMethod.process_weights_after_loading</code>；SGLang 不需要这个补丁（原生加载量化权重）。</p>
+<p>E2E 模式通过 Transformer Engine 把 FP8 扩展到前反向 + FP8 优化器状态 + FP8 vLLM 推理。<strong>注意：报告的实验里 MoE router 在 vLLM 和 Megatron-Core 两侧都保持 BF16。</strong></p>
+<h3 id="82">8.2 配置<a class="headerlink" href="#82" title="Permanent link">&para;</a></h3>
+<p><strong>Rollout-only（推荐起点）：</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nt">rollout.quantization</span><span class="p">:</span><span class="w"> </span><span class="s">"fp8"</span>
+</span></code></pre></div>
+CLI：<code>actor_rollout_ref.rollout.quantization=fp8</code></p>
+<p>SGLang 跳过某些层：环境变量 <code>SGLANG_FP8_IGNORED_LAYERS</code>（逗号分隔），或模型的 <code>quantization_config.ignored_layers</code>（接受层名、完整路径、<code>re:</code> 正则）。被跳过的模块保持 rollout dtype。<strong>启动时和权重同步时规则一致。</strong></p>
+<p><strong>End-to-End：</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="nt">actor_rollout_ref.actor.megatron.override_transformer_config</span><span class="p">:</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">  </span><span class="nt">fp8</span><span class="p">:</span><span class="w"> </span><span class="s">"hybrid"</span><span class="w">            </span><span class="c1"># 或 "e4m3"</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">  </span><span class="nt">fp8_recipe</span><span class="p">:</span><span class="w"> </span><span class="s">"blockwise"</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="nt">actor_rollout_ref.actor.optim.override_optimizer_config</span><span class="p">:</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="w">  </span><span class="nt">fp8_recipe</span><span class="p">:</span><span class="w"> </span><span class="s">"blockwise"</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="nt">actor_rollout_ref.rollout</span><span class="p">:</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="w">  </span><span class="nt">quantization</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fp8</span>
+</span></code></pre></div>
+要求：CUDA 12.9+、带 blockwise FP8 的 Transformer Engine 构建、<code>NVTE_FP8_BLOCK_SCALING_FP32_SCALES=1</code>。</p>
+<h3 id="83">8.3 支持范围<a class="headerlink" href="#83" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Rollout-only：</strong> dense + MoE、async rollout 接口、vLLM 0.10.x/0.11/0.12、SGLang 0.5.5、FSDP 和 Megatron 都行</li>
+<li><strong>E2E：</strong> 仅 Megatron（经 Megatron-Bridge），已在 Qwen3-30B-A3B 和 Qwen3-8B 上验证</li>
+</ul>
+<h3 id="84">8.4 实测结果（含最关键的一条警告）<a class="headerlink" href="#84" title="Permanent link">&para;</a></h3>
+<p><strong>Qwen3-8B-Base</strong>（DAPO、AIME24、8×H100、token-level TIS，C=2）：
+- <strong>开 TIS 时 FP8 rollout 精度与 BF16 齐平</strong>
+- <strong>不开 TIS 时有"明显的精度下降"</strong> ← 这条最重要
+- rollout 吞吐：CUDA 12.6 + DeepGemm 提升约 <strong>12%</strong>；CUDA 12.9 最高约 <strong>18%</strong></p>
+<p><strong>Qwen3-30B-A3B-Base</strong>（2×8×H100、async FP8 rollout、vLLM + FSDP）：
+- rollout 加速 <strong>超过 35%</strong>
+- token-level TIS 下精度与 BF16 相当
+- <strong>MoE 的 mismatch 普遍更高，即使 BF16 也需要校正</strong></p>
+<p><strong>Qwen3-30B-A3B E2E</strong>（2×8×H100、CUDA 12.9、prompt batch 128、n=16、20K max response）：
+- 精度紧跟 BF16 基线
+- mismatch KL 排序：<strong>FP8 rollout-only &gt; FP8 E2E &gt; BF16 E2E</strong>——官方归因于 E2E 让训练和推理的精度保持了一致</p>
+<h3 id="85">8.5 结论<a class="headerlink" href="#85" title="Permanent link">&para;</a></h3>
+<p><strong>FP8 rollout 是当前性价比最高的降本手段（12%–35% rollout 加速），但必须与 rollout correction 配套使用。</strong> 单独开 FP8 不开 TIS 会掉精度。这是 §4 和 §8 之间的强耦合关系。</p>
+<p>另有 NVFP4 QAT 支持（<code>low_precision/nvfp4_qat</code>）。完整 ablation 见 FP8-RL 技术报告（Qiu et al., arXiv:2601.18150），脚本在 verl-recipe 的 low_precision 目录。</p>
+<hr />
+<h2 id="9">9. 大模型性能调优要点<a class="headerlink" href="#9" title="Permanent link">&para;</a></h2>
+<p>摘自官方 <a href="https://verl.readthedocs.io/en/latest/perf/best_practices.html">DAPO + Qwen3-235B 最佳实践</a>（更新于 2025-11-03），挑出容易踩坑的部分。</p>
+<h3 id="91">9.1 显存预算的算法<a class="headerlink" href="#91" title="Permanent link">&para;</a></h3>
+<ul>
+<li>bf16/fp16 下每参数约 <strong>2/TP 字节</strong></li>
+<li>若保留 FP32 master weights 或不开优化器 offload，Adam 再加 <strong>4–8 字节/参数</strong></li>
+<li>激活量 ∝ <code>micro_batch_size × sequence_length × hidden_size</code></li>
+</ul>
+<p><strong>并行策略优先级：</strong> TP 优先 → 需要时加 PP → CP 处理长序列 → MoE 的 EP/ETP 与 TP 对齐 → 紧张集群上 DP 最小化。</p>
+<p><strong>KV cache 的约束条件：</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>memory_per_gpu × gpu_memory_utilization × TP &gt; 2 × model_parameters
+</span></code></pre></div>
+逐步提高 TP 换 KV cache，但 <strong>TP &gt; 8 之后要留意通信开销</strong>。</p>
+<h3 id="92">9.2 采样参数<a class="headerlink" href="#92" title="Permanent link">&para;</a></h3>
+<p><strong>训练 rollout：</strong> <code>temperature=1.0</code>、<code>top_p=1.0</code>、<code>top_k=-1</code></p>
+<p><strong>验证：</strong> <code>temperature=1.0</code>、<code>top_p=0.7</code>、<code>top_k=-1</code>、<code>do_sample=True</code>、<code>n=1</code>；AIME24 这类小集合把 <code>n</code> 推到 <strong>64</strong>。</p>
+<p><strong>⚠️ 验证时温度不要设 0</strong> —— 会导致重复的推理循环。这个坑很常见。</p>
+<h3 id="93-vllm">9.3 vLLM 侧<a class="headerlink" href="#93-vllm" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nt">enable_chunked_prefill</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="nt">max_num_batched_tokens</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">max(8192, max_prompt_length + max_response_length, max_model_len)</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="nt">enforce_eager</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                       </span><span class="c1"># 显存紧张时；CUDA graph 显存不计入 gpu_memory_utilization</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="nt">cudagraph_capture_sizes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="nv">8</span><span class="p p-Indicator">,</span><span class="nv">16</span><span class="p p-Indicator">,</span><span class="nv">32</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># 默认 null，压力大时试这个</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="nt">gpu_memory_utilization</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.8~0.9</span><span class="w">           </span><span class="c1"># 开 offload 的情况下</span>
+</span></code></pre></div>
+<p><strong>注意：</strong> 有些后端参数（如 <code>pipeline_parallel_size</code>）可能不支持；TP=32 时 <code>enable_expert_parallel=True</code> <strong>反而会拖慢</strong> DeepSeek-V3 的 rollout。额外后端参数用 <code>+</code> 前缀传：<code>+actor_rollout_ref.rollout.engine_kwargs.vllm.*</code>。</p>
+<h3 id="94-megatron">9.4 Megatron 侧推荐配置<a class="headerlink" href="#94-megatron" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># offload（显存不足时）</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="nt">megatron.param_offload / optimizer_offload / grad_offload</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># 重计算</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="nt">recompute_method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uniform</span>
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="nt">recompute_granularity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">full</span>
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="nt">recompute_num_layers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="c1"># MoE 专用</span>
+</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="nt">moe_router_dtype</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fp32</span>
+</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="nt">moe_shared_expert_overlap</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-30-12"><a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a><span class="nt">moe_permute_fusion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-30-13"><a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="nt">moe_enable_deepep</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-30-14"><a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a><span class="nt">moe_token_dispatcher_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flex</span>
+</span><span id="__span-30-15"><a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a>
+</span><span id="__span-30-16"><a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a><span class="nt">gradient_accumulation_fusion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-30-17"><a id="__codelineno-30-17" name="__codelineno-30-17" href="#__codelineno-30-17"></a>
+</span><span id="__span-30-18"><a id="__codelineno-30-18" name="__codelineno-30-18" href="#__codelineno-30-18"></a><span class="c1"># 层数不均匀时</span>
+</span><span id="__span-30-19"><a id="__codelineno-30-19" name="__codelineno-30-19" href="#__codelineno-30-19"></a><span class="nt">account_for_embedding_in_pipeline_split</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-30-20"><a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a><span class="nt">account_for_loss_in_pipeline_split</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-30-21"><a id="__codelineno-30-21" name="__codelineno-30-21" href="#__codelineno-30-21"></a><span class="nt">num_layers_in_last_pipeline_stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">     </span><span class="c1"># 或 ${LAST_LAYER}</span>
+</span></code></pre></div>
+<p><strong>优化器</strong>（大模型如 DeepSeek 上收益明显）：
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1e-5 或 1e-6</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="nt">lr_warmup_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="nt">weight_decay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="nt">clip_grad</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="nt">+...override_optimizer_config.optimizer_offload_fraction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="c1"># 配套开启</span>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="nt">overlap_cpu_optimizer_d2h_h2d</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a><span class="nt">use_precision_aware_optimizer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="nt">optimizer_cpu_offload</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div></p>
+<h3 id="95-checkpoint">9.5 checkpoint 格式的选择（容易搞错）<a class="headerlink" href="#95-checkpoint" title="Permanent link">&para;</a></h3>
+<p><div class="language-yaml highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="nt">actor_rollout_ref.actor.megatron.use_mbridge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">    </span><span class="c1"># 默认</span>
+</span></code></pre></div>
+- <code>true</code> —— 经 Megatron Bridge 以 <strong>HF 格式</strong>存取权重，<code>save_contents</code> 里 <code>hf_model</code> 与 <code>model</code> 去重
+- <code>false</code> —— 走 Megatron <code>dist_checkpointing</code>，<strong>拒绝 <code>hf_model</code></strong>，事后用 <code>verl.model_merger</code> 合并
+- 无论哪种，<strong>优化器、LR scheduler、RNG state 始终走 <code>dist_checkpointing</code></strong>
+- legacy 的 <code>use_dist_checkpointing=True</code> 等价于 <code>use_mbridge=False</code></p>
+<p>另外 <code>vanilla_mbridge</code> 保持 <code>false</code>（用 Megatron-Bridge），<code>true</code> 走已废弃的 mbridge。</p>
+<h3 id="96-batching">9.6 动态 batching（建议全开）<a class="headerlink" href="#96-batching" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="nt">actor_rollout_ref.actor.use_dynamic_bsz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="nt">actor_rollout_ref.rollout.log_prob_use_dynamic_bsz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="nt">actor_rollout_ref.ref.log_prob_use_dynamic_bsz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="nt">actor_rollout_ref.rollout.log_prob_max_token_len_per_gpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;≥ max_prompt+max_response 的倍数&gt;</span>
+</span></code></pre></div>
+<p>ref 模型的五个 Megatron 并行度<strong>必须与 actor 保持一致</strong>，<code>ref.megatron.param_offload</code> 也建议镜像 actor 的设置，便于容量规划。</p>
+<h3 id="97">9.7 数据要求<a class="headerlink" href="#97" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>只接受 Parquet。</strong> 用 <code>examples/data_preprocess</code> 转换</li>
+<li><code>data_source</code> 字段必须有对应的 reward function</li>
+<li><code>BytedTsinghua-SIA/DAPO-Math-17k</code> 开箱可用</li>
+<li><code>data.truncation</code>：多数场景用 <code>left</code>，严格校验用 <code>error</code></li>
+</ul>
+<hr />
+<h2 id="10">10. 其他值得知道的特性<a class="headerlink" href="#10" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>文档路径</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Full determinism</strong></td>
+<td><code>advance/determinism</code></td>
+<td>完全可复现训练。<strong>调试算法问题时非常有用</strong>——能区分"改动有效"和"随机波动"</td>
+</tr>
+<tr>
+<td><strong>LoRA for RL</strong></td>
+<td><code>advance/ppo_lora</code></td>
+<td>RL 场景的 LoRA/PEFT，Megatron-Bridge 也支持</td>
+</tr>
+<tr>
+<td><strong>Sandbox Fusion</strong></td>
+<td><code>examples/sandbox_fusion_example</code></td>
+<td>代码执行沙箱集成，code RL 必备</td>
+</tr>
+<tr>
+<td><strong>Rollout trace</strong></td>
+<td><code>advance/rollout_trace</code></td>
+<td>追踪 rollout 过程，排查多轮问题</td>
+</tr>
+<tr>
+<td><strong>RL-Insight</strong></td>
+<td><code>advance/rl_insight</code></td>
+<td>监控面板</td>
+</tr>
+<tr>
+<td><strong>Prometheus/Grafana</strong></td>
+<td><code>advance/grafana_prometheus</code></td>
+<td>rollout 监控</td>
+</tr>
+<tr>
+<td><strong>SkipManager</strong></td>
+<td><code>advance/skip_manager</code></td>
+<td>跳过异常样本</td>
+</tr>
+<tr>
+<td><strong>Reward Loop</strong></td>
+<td><code>advance/reward_loop</code></td>
+<td>奖励计算的异步化</td>
+</tr>
+<tr>
+<td><strong>KV cache offload</strong></td>
+<td><code>perf/rollout_kv_offload</code></td>
+<td>通过 Mooncake-Store</td>
+</tr>
+<tr>
+<td><strong>RoPE scaling override</strong></td>
+<td><code>advance/rope</code></td>
+<td>长上下文</td>
+</tr>
+<tr>
+<td><strong>Attention 实现覆盖</strong></td>
+<td><code>advance/attention_implementation</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Profiler 体系</strong></td>
+<td><code>perf/verl_profiler_system</code>、<code>nsight_profiling</code>、<code>torch_profiling</code></td>
+<td>三层性能分析</td>
+</tr>
+<tr>
+<td><strong>多芯片支持</strong></td>
+<td><code>hardware/multi_chip_support</code>、<code>amd_tutorial</code>、<code>ascend_tutorial</code></td>
+<td>AMD / Ascend</td>
+</tr>
+</tbody>
+</table>
+<h3 id="07">奖励系统（0.7 重构）<a class="headerlink" href="#07" title="Permanent link">&para;</a></h3>
+<ul>
+<li>支持<strong>混合奖励场景</strong>：生成式、判别式、rule-based 及其组合</li>
+<li>奖励模型重构为 <strong>server mode</strong>，可共置或独立部署</li>
+<li>新增 reward manager：<strong>limited 模式</strong>（控制请求速率）、<strong>remote 模式</strong>（CPU 密集打分外置）</li>
+</ul>
+<p>这个重构对我们的意义：<strong>如果奖励计算是 CPU 瓶颈（比如跑测试用例、调用外部 verifier），remote 模式可以把它从 GPU 节点上摘出去。</strong></p>
+<hr />
+<h2 id="11_1">11. 生态与相关项目<a class="headerlink" href="#11_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/langfengQ/verl-agent">verl-agent</a></td>
+<td>agent RL 扩展，GiGPO 官方实现，step-independent 多轮 rollout</td>
+</tr>
+<tr>
+<td><a href="https://github.com/hiyouga/EasyR1">EasyR1</a></td>
+<td>verl 的干净 fork，专注 VLM 多模态 RL</td>
+</tr>
+<tr>
+<td><a href="https://github.com/BytedTsinghua-SIA/DAPO">DAPO</a></td>
+<td>DAPO 官方仓库，基于 verl</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PeterGriffinJin/Search-R1">Search-R1</a></td>
+<td>搜索增强 RL</td>
+</tr>
+<tr>
+<td><a href="https://github.com/zhaochenyang20/Awesome-ML-SYS-Tutorial/blob/main/rlhf/verl/multi-turn/code-walk-through/readme_EN.md">Awesome-ML-SYS-Tutorial</a></td>
+<td>第三方代码走读（类/函数级），入门定位很有用（非官方维护）</td>
+</tr>
+<tr>
+<td><a href="https://github.com/corl-team/verl-loras">corl-team/verl-loras</a></td>
+<td>LoRA 相关 fork</td>
+</tr>
+</tbody>
+</table>
+<p><strong>部署参考：</strong>
+- <a href="https://docs.ray.io/en/latest/cluster/kubernetes/examples/verl-post-training.html">Ray + KubeRay 官方 walkthrough</a>
+- <a href="https://aws.amazon.com/blogs/machine-learning/train-codefu-7b-with-verl-and-ray-on-amazon-sagemaker-training-jobs/">AWS SageMaker 训练 CodeFu-7B</a>
+- <a href="https://blog.skypilot.co/verl-rl-training/">SkyPilot 跨 K8s/云扩展</a>
+- <a href="https://rocm.blogs.amd.com/artificial-intelligence/verl-large-scale/README.html">AMD ROCm 集成</a></p>
+<p><strong>一条来自社区的诚实反馈：</strong> <a href="https://huggingface.co/blog/Weyaxi/engineering-handbook-grpo-lora-with-verl">HF 的 GRPO+LoRA 工程手册</a> 指出，云环境下配置 verl 达到高性能<strong>并非易事，经常需要超出基础文档去解决系统级约束和稳定性问题</strong>。做排期时应留出这部分时间。</p>
+<hr />
+<h2 id="12_1">12. 落地建议：分阶段路线<a class="headerlink" href="#12_1" title="Permanent link">&para;</a></h2>
+<h3 id="12_2">阶段一：建立可信基线（1–2 周）<a class="headerlink" href="#12_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>走 on-policy 流水线 + FSDP 后端</strong>（Day-0 模型支持，环境最简单）</li>
+<li>跑通 GSM8K quickstart，确认端到端链路</li>
+<li><strong>打开 <code>calculate_log_probs: true</code>，只观测不校正</strong>，摸清我们的训练-推理 gap</li>
+<li>建 dashboard：<code>rollout_corr/kl</code>、<code>rollout_is_mean</code>、<code>eff_sample_size</code>、entropy、<strong>pass@1 与 pass@k</strong></li>
+<li><strong>开 full determinism</strong>，后续才能区分"改动有效"和"随机波动"</li>
+</ol>
+<h3 id="1_1">阶段二：算法侧低成本收益（1 周）<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li><code>clip_ratio_low=0.2</code> / <code>clip_ratio_high=0.28</code>（Clip-Higher）</li>
+<li><code>loss_agg_mode: token-mean</code> 确认</li>
+<li>Dynamic Sampling（<code>filter_groups.enable=true</code> + 3× 超采样）</li>
+<li>按第一步测出的 gap 决定是否上 rollout correction 预设（推荐从 <code>bypass_ppo_clip()</code> 起）</li>
+</ol>
+<h3 id="_1">阶段三：按需求分叉<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p><strong>如果瓶颈是训练速度：</strong>
+- response 长（&gt;8K）→ 上 one-step-off-policy（+20–40%），再考虑 fully-async（最高 2.66×）
+- 想降成本 → FP8 rollout（+12–35%），<strong>必须同时开 TIS</strong></p>
+<p><strong>如果瓶颈是模型能力：</strong>
+- 熵坍塌 → KL-Cov
+- MoE 不稳 → <strong>切 GSPO + router replay</strong>（这两个是 MoE RL 的组合拳）
+- 关键 token 学不到 → CISPO 或 SAPO
+- pass@k 退化 → 加多样性目标，延长训练（ProRL 结论）</p>
+<p><strong>如果要做 agent / 多轮：</strong>
+- 用 <code>@function_tool</code> 起步（比 BaseTool 简单得多）
+- <strong>务必 token-in/token-out</strong>，别用 message 历史重新 apply chat template
+- 打开 <code>tokenization_sanity_check_mode</code></p>
+<p><strong>如果要 MTP：</strong>
+- 先确认走 Megatron 路线（否则不可用）
+- 目标是"产出带 MTP 的部署 checkpoint" → 场景一/二可做
+- 目标是"加速 RL rollout" → <strong>暂缓，等 v0.8</strong></p>
+<h3 id="v08">阶段四：跟进 v0.8<a class="headerlink" href="#v08" title="Permanent link">&para;</a></h3>
+<ul>
+<li>TensorDict 替代 DataProto（去 padding）</li>
+<li><strong>MTP RL 训练进主线</strong></li>
+<li>TransferQueue 成为默认</li>
+<li>DeepSeek V3.2 支持</li>
+</ul>
+<p><strong>代码风格建议：现在就按新 model engine 写，避免 v0.8 废弃 <code>fsdp_workers.py</code> / <code>megatron_workers.py</code> 时返工。</strong></p>
+<hr />
+<h2 id="13_1">13. 参考链接<a class="headerlink" href="#13_1" title="Permanent link">&para;</a></h2>
+<p><strong>官方</strong>
+- <a href="https://github.com/verl-project/verl">verl 仓库（新地址）</a>
+- <a href="https://verl.readthedocs.io/en/latest/index.html">文档首页</a>
+- <a href="https://verl.readthedocs.io/en/latest/blog/v0.7.html">v0.7 Release Notes</a> ← 含 v0.8/v0.9 路线图
+- <a href="https://verl.readthedocs.io/en/latest/faq/faq.html">FAQ</a></p>
+<p><strong>本报告重点引用的页面</strong>
+- <a href="https://verl.readthedocs.io/en/latest/algo/rollout_corr.html">Rollout Correction</a> · <a href="https://verl.readthedocs.io/en/latest/algo/rollout_corr_math.html">数学推导</a>
+- <a href="https://verl.readthedocs.io/en/latest/advance/mtp.html">MTP in SFT/RL</a>
+- <a href="https://verl.readthedocs.io/en/latest/advance/agent_loop.html">Agent Loop</a>
+- <a href="https://verl.readthedocs.io/en/latest/sglang_multiturn/multiturn.html">多轮 rollout</a>
+- <a href="https://verl.readthedocs.io/en/latest/advance/fully_async.html">Fully Async</a> · <a href="https://verl.readthedocs.io/en/latest/advance/one_step_off.html">One-step Off</a>
+- <a href="https://verl.readthedocs.io/en/latest/low_precision/fp8.html">FP8 RL</a> · <a href="https://verl.readthedocs.io/en/latest/low_precision/nvfp4_qat.html">NVFP4 QAT</a>
+- <a href="https://verl.readthedocs.io/en/latest/algo/dapo.html">DAPO</a> · <a href="https://verl.readthedocs.io/en/latest/algo/grpo.html">GRPO</a> · <a href="https://verl.readthedocs.io/en/latest/algo/entropy.html">熵机制</a>
+- <a href="https://verl.readthedocs.io/en/latest/perf/best_practices.html">最佳实践 DAPO + Qwen3-235B</a>
+- <a href="https://verl.readthedocs.io/en/latest/perf/dpsk.html">DeepSeek 671B 调优</a>
+- <a href="https://verl.readthedocs.io/en/latest/advance/determinism.html">Full Determinism</a></p>
+<hr />
+<p><em>报告完。算法侧内容见《RL算法调研报告.md》。</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/zhongyang180" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "search.share", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
